@@ -45,6 +45,15 @@ public class SenseHatTester {
                     Thread.sleep(1);
                 }
             }
+
+            if(args.containsOption("set-pixel")) {
+                int x = Integer.parseInt(args.getOptionValues("x").get(0));
+                int y = Integer.parseInt(args.getOptionValues("y").get(0));
+
+                String color = args.getOptionValues("color").get(0);
+
+                senseHat.setPixel(x, y, color);
+            }
         };
     }
 }

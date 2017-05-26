@@ -7,6 +7,7 @@ import okio.Okio;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 
 import static de.larsgrefer.sense_hat.FrameBufferHelper.toSenseHatColor;
 
@@ -35,6 +36,10 @@ public class SenseHat {
         fillColorInternal(toSenseHatColor(color));
     }
 
+    public void fillColor(String color) throws IOException {
+        fillColorInternal(toSenseHatColor(color));
+    }
+
     private void fillColorInternal(int senseHatColor) throws IOException {
         try (BufferedSink buffer = Okio.buffer(Okio.sink(frameBuffer))) {
 
@@ -45,8 +50,24 @@ public class SenseHat {
         }
     }
 
+    public void setPixel(int x, int y, int color) throws IOException {
+        setPixelInternal(x, y, toSenseHatColor(color));
+    }
 
-    public void fillColor(String color) throws IOException {
-        fillColorInternal(toSenseHatColor(color));
+    public void setPixel(int x, int y, String color) throws IOException {
+        setPixelInternal(x, y, toSenseHatColor(color));
+    }
+
+    private void setPixelInternal(int x, int y, int i) throws IOException {
+        if(x < 0 || x > 7) throw new IndexOutOfBoundsException("x");
+        if(y < 0 || y > 7) throw new IndexOutOfBoundsException("y");
+
+        int pixNum = 8*y + x;
+
+        try (RandomAccessFile randomAccessFile = new RandomAccessFile(frameBuffer, "rw")) {
+
+            randomAccessFile.seek(pixNum * 2);
+            randomAccessFile.writeShort(i);
+        }
     }
 }
