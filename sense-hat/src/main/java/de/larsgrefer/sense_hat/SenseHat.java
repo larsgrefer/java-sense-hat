@@ -39,7 +39,7 @@ public class SenseHat {
         try (BufferedSink buffer = Okio.buffer(Okio.sink(frameBuffer))) {
 
             for (int i = 0; i < 64; i++) {
-                buffer.writeShort(senseHatColor);
+                buffer.writeShortLe(senseHatColor);
             }
             buffer.flush();
         }

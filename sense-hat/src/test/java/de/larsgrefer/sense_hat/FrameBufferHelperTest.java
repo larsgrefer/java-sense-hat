@@ -66,4 +66,23 @@ public class FrameBufferHelperTest {
         assertThat(FrameBufferHelper.toSenseHatColor("#FF0000")).isEqualTo(0xF800);
     }
 
+    @Test
+    public void testInt_blue() {
+        assertThat(FrameBufferHelper.toSenseHatColor(0x00, 0x00, 0xFF)).isEqualTo(0x001F);
+    }
+
+    @Test
+    public void testDouble_blue() {
+        assertThat(FrameBufferHelper.toSenseHatColor(0d ,0d, 1d)).isEqualTo(0x001F);
+    }
+
+    @Test
+    public void testString_blue() {
+        assertThat(FrameBufferHelper.toSenseHatColor("blue")).isEqualTo(0x001F);
+        assertThat(FrameBufferHelper.toSenseHatColor("00F")).isEqualTo(0x001F);
+        assertThat(FrameBufferHelper.toSenseHatColor("#00F")).isEqualTo(0x001F);
+        assertThat(FrameBufferHelper.toSenseHatColor("0000FF")).isEqualTo(0x001F);
+        assertThat(FrameBufferHelper.toSenseHatColor("#0000FF")).isEqualTo(0x001F);
+    }
+
 }

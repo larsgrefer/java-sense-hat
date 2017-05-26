@@ -42,6 +42,7 @@ public class SenseHatTester {
 
                     int color = Color.HSBtoRGB((float) (time / 5000d), 1, 1);
                     senseHat.fillColor(color);
+                    Thread.sleep(1);
                 }
             }
         };
