@@ -34,9 +34,9 @@ public class SenseHatTester {
                 Matcher matcher = Pattern.compile("#([0-9A-F]{2})([0-9A-F]{2})([0-9A-F]{2})").matcher(fill);
 
                 if(matcher.matches()) {
-                    int red = Integer.parseInt(matcher.group(1));
-                    int green = Integer.parseInt(matcher.group(2));
-                    int blue = Integer.parseInt(matcher.group(3));
+                    int red = Integer.parseInt(matcher.group(1), 16);
+                    int green = Integer.parseInt(matcher.group(2), 16);
+                    int blue = Integer.parseInt(matcher.group(3), 16);
 
                     senseHat.fillColor(red/255d, green/255d, blue/255d);
 
