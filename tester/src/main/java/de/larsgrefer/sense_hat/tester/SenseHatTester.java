@@ -34,8 +34,13 @@ public class SenseHatTester {
             }
 
             if(args.containsOption("rainbow")) {
-                for (int i = 0; i < 361; i = (i + 1) % 360) {
-                    int color = Color.HSBtoRGB((float) (i / 360d), 1, 1);
+
+                long l = System.currentTimeMillis();
+
+                while (true) {
+                    long time = (System.currentTimeMillis() - l) % 5000;
+
+                    int color = Color.HSBtoRGB((float) (time / 5000d), 1, 1);
                     senseHat.fillColor(color);
                 }
             }
