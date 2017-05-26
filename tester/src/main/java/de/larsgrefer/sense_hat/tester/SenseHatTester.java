@@ -44,6 +44,6 @@ public class SenseHatTester {
                     log.error("Failed to parse color {}", fill);
                 }
             }
-        }
+        };
     }
 }
