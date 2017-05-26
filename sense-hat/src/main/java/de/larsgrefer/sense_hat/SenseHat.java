@@ -1,6 +1,7 @@
 package de.larsgrefer.sense_hat;
 
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import okio.BufferedSink;
 import okio.Okio;
 
@@ -8,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 
 @RequiredArgsConstructor
+@ToString
 public class SenseHat {
 
     public static final String SENSE_HAT_FB_NAME = "RPi-Sense FB";
@@ -27,6 +29,7 @@ public class SenseHat {
             for (int i = 0; i < 64; i++) {
                 buffer.writeShort(color);
             }
+            buffer.flush();
         }
     }
 

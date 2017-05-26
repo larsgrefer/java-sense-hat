@@ -38,7 +38,11 @@ public class SenseHatTester {
                     int green = Integer.parseInt(matcher.group(2), 16);
                     int blue = Integer.parseInt(matcher.group(3), 16);
 
+                    log.info("filling with red={}, green0={}, blue={}", red, green, blue);
+
                     senseHat.fillColor(red/255d, green/255d, blue/255d);
+
+                    log.info("SenseHat={}", senseHat);
 
                 } else {
                     log.error("Failed to parse color {}", fill);
