@@ -58,16 +58,25 @@ public class SenseHat {
         setPixelInternal(x, y, toSenseHatColor(color));
     }
 
-    private void setPixelInternal(int x, int y, int i) throws IOException {
-        if(x < 0 || x > 7) throw new IndexOutOfBoundsException("x");
-        if(y < 0 || y > 7) throw new IndexOutOfBoundsException("y");
+    public void setPixel(int x, int y, int red, int green, int blue) throws IOException {
+        setPixelInternal(x, y, toSenseHatColor(red, green, blue));
+    }
 
-        int pixNum = 8*y + x;
+    public void setPixel(int x, int y, double red, double green, double blue) throws IOException {
+        setPixelInternal(x, y, toSenseHatColor(red, green, blue));
+    }
+
+    private void setPixelInternal(int x, int y, int i) throws IOException {
+        if (x < 0 || x > 7) throw new IndexOutOfBoundsException("x");
+        if (y < 0 || y > 7) throw new IndexOutOfBoundsException("y");
+
+        int pixNum = 8 * y + x;
 
         try (RandomAccessFile randomAccessFile = new RandomAccessFile(frameBuffer, "rw")) {
 
             randomAccessFile.seek(pixNum * 2);
-            randomAccessFile.writeShort(i);
+            randomAccessFile.write((i) & 0xFF);
+            randomAccessFile.write((i >>> 8) & 0xFF);
         }
     }
 }
