@@ -58,9 +58,11 @@ public class SenseHatTester {
             if(args.containsOption("50-shades")) {
                 for (int i = 0; i < 64; i++) {
 
-                    double d = i / 63d;
+                    int r = i/2;
+                    int g = i;
+                    int b = i/2;
 
-                    senseHat.setPixel(i % 8, i / 8, d, d, d);
+                    senseHat.setPixelRaw(i % 8, i / 8, (r << 11) + (g << 5) + b);
                 }
             }
         };

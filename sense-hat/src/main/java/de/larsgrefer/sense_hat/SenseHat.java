@@ -25,22 +25,22 @@ public class SenseHat {
     }
 
     public void fillColor(double red, double green, double blue) throws IOException {
-        fillColorInternal(toSenseHatColor(red, green, blue));
+        fillColorRaw(toSenseHatColor(red, green, blue));
     }
 
     public void fillColor(int red, int green, int blue) throws IOException {
-        fillColorInternal(toSenseHatColor(red, green, blue));
+        fillColorRaw(toSenseHatColor(red, green, blue));
     }
 
     public void fillColor(int color) throws IOException {
-        fillColorInternal(toSenseHatColor(color));
+        fillColorRaw(toSenseHatColor(color));
     }
 
     public void fillColor(String color) throws IOException {
-        fillColorInternal(toSenseHatColor(color));
+        fillColorRaw(toSenseHatColor(color));
     }
 
-    private void fillColorInternal(int senseHatColor) throws IOException {
+    public void fillColorRaw(int senseHatColor) throws IOException {
         try (BufferedSink buffer = Okio.buffer(Okio.sink(frameBuffer))) {
 
             for (int i = 0; i < 64; i++) {
@@ -51,22 +51,22 @@ public class SenseHat {
     }
 
     public void setPixel(int x, int y, int color) throws IOException {
-        setPixelInternal(x, y, toSenseHatColor(color));
+        setPixelRaw(x, y, toSenseHatColor(color));
     }
 
     public void setPixel(int x, int y, String color) throws IOException {
-        setPixelInternal(x, y, toSenseHatColor(color));
+        setPixelRaw(x, y, toSenseHatColor(color));
     }
 
     public void setPixel(int x, int y, int red, int green, int blue) throws IOException {
-        setPixelInternal(x, y, toSenseHatColor(red, green, blue));
+        setPixelRaw(x, y, toSenseHatColor(red, green, blue));
     }
 
     public void setPixel(int x, int y, double red, double green, double blue) throws IOException {
-        setPixelInternal(x, y, toSenseHatColor(red, green, blue));
+        setPixelRaw(x, y, toSenseHatColor(red, green, blue));
     }
 
-    private void setPixelInternal(int x, int y, int i) throws IOException {
+    public void setPixelRaw(int x, int y, int senseHatColor) throws IOException {
         if (x < 0 || x > 7) throw new IndexOutOfBoundsException("x");
         if (y < 0 || y > 7) throw new IndexOutOfBoundsException("y");
 
@@ -75,8 +75,8 @@ public class SenseHat {
         try (RandomAccessFile randomAccessFile = new RandomAccessFile(frameBuffer, "rw")) {
 
             randomAccessFile.seek(pixNum * 2);
-            randomAccessFile.write((i) & 0xFF);
-            randomAccessFile.write((i >>> 8) & 0xFF);
+            randomAccessFile.write((senseHatColor) & 0xFF);
+            randomAccessFile.write((senseHatColor >>> 8) & 0xFF);
         }
     }
 }
