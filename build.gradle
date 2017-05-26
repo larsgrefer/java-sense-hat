@@ -1,16 +1,5 @@
-plugins {
-    id "java"
-    id "maven-publish"
-}
-
-repositories {
-    jcenter()
-}
-
-archivesBaseName = "sense-hat"
-
-dependencies {
-    compile 'org.slf4j:slf4j-api:1.7.22'
-
-    testCompile 'junit:junit:4.12'
+allprojects {
+    repositories {
+        jcenter()
+    }
 }

@@ -1,1 +1,5 @@
+include ':sense-hat'
+include ':spring-boot-starter'
+include ':tester'
+
 rootProject.name = 'java-sense-hat'
