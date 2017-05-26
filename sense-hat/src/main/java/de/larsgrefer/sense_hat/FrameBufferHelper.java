@@ -51,9 +51,9 @@ public class FrameBufferHelper {
     }
 
     public static int toSenseHatColor(double red, double green, double blue) {
-        int r = (int) (red * 32);
-        int g = (int) (green * 64);
-        int b = (int) (blue * 32);
+        int r = (int) (red * 31);
+        int g = (int) (green * 63);
+        int b = (int) (blue * 31);
 
         return (r << 11) + (g << 5) + b;
     }
