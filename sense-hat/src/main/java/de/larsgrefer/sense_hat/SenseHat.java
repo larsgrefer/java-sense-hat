@@ -8,6 +8,8 @@ import okio.Okio;
 import java.io.File;
 import java.io.IOException;
 
+import static de.larsgrefer.sense_hat.FrameBufferHelper.toSenseHatColor;
+
 @RequiredArgsConstructor
 @ToString
 public class SenseHat {
@@ -22,16 +24,29 @@ public class SenseHat {
     }
 
     public void fillColor(double red, double green, double blue) throws IOException {
-        int color = FrameBufferHelper.toSenseHatColor(red, green, blue);
+        fillColorInternal(toSenseHatColor(red, green, blue));
+    }
 
+    public void fillColor(int red, int green, int blue) throws IOException {
+        fillColorInternal(toSenseHatColor(red, green, blue));
+    }
+
+    public void fillColor(int color) throws IOException {
+        fillColorInternal(toSenseHatColor(color));
+    }
+
+    private void fillColorInternal(int senseHatColor) throws IOException {
         try (BufferedSink buffer = Okio.buffer(Okio.sink(frameBuffer))) {
 
             for (int i = 0; i < 64; i++) {
-                buffer.writeShort(color);
+                buffer.writeShort(senseHatColor);
             }
             buffer.flush();
         }
     }
 
 
+    public void fillColor(String color) throws IOException {
+        fillColorInternal(toSenseHatColor(color));
+    }
 }
