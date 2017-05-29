@@ -1,70 +1,68 @@
 package de.larsgrefer.sense_hat.tester;
 
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.Parameter;
 import de.larsgrefer.sense_hat.SenseHat;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
-import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Created by larsgrefer on 26.05.17.
+ * @author Lars Grefer
  */
 @Slf4j
-@SpringBootApplication
+@Getter
 public class SenseHatTester {
 
-    public static void main(String[] args) {
-        SpringApplication.run(SenseHatTester.class, args);
-    }
+    @Parameter(names = {"-h", "--help", "-?"}, help = true, description = "Show usage")
+    private boolean printUsage = false;
 
-    @Autowired
-    SenseHat senseHat;
+    @Parameter(names = "--frame-buffer")
+    private File frameBuffer;
 
-    @Bean
-    public ApplicationRunner applicationRunner() {
-        return args -> {
-            if(args.containsOption("fill")) {
-                String fill = args.getOptionValues("fill").get(0);
+    public static void main(String[] args) throws IOException, InterruptedException {
+        SenseHatTester senseHatTester = new SenseHatTester();
 
-                senseHat.fillColor(fill);
-            }
+        Map<String, Command> commands = new HashMap<>();
 
-            if(args.containsOption("rainbow")) {
+        commands.put("fill", new FillCommand());
+        commands.put("set-pixel", new SetPixelCommand());
+        commands.put("save-image", new SaveImageCommand());
 
-                long l = System.currentTimeMillis();
+        JCommander.Builder builder = JCommander.newBuilder()
+                .addObject(senseHatTester);
 
-                while (true) {
-                    long time = (System.currentTimeMillis() - l) % 5000;
+        commands.forEach((name, cmd) -> builder.addCommand(name, cmd));
 
-                    int color = Color.HSBtoRGB((float) (time / 5000d), 1, 1);
-                    senseHat.fillColor(color);
-                    Thread.sleep(1);
+        JCommander jCommander = builder.build();
+        jCommander.parse(args);
+
+        if(senseHatTester.isPrintUsage()) {
+            jCommander.usage();
+            return;
+        }
+
+        String parsedCommand = jCommander.getParsedCommand();
+
+        if (parsedCommand != null && commands.containsKey(parsedCommand)) {
+            SenseHat senseHat;
+            try {
+                if(senseHatTester.getFrameBuffer() != null) {
+                    senseHat = new SenseHat(senseHatTester.getFrameBuffer());
+                } else {
+                    senseHat = new SenseHat();
                 }
+            } catch (IllegalStateException e) {
+                log.error(e.getLocalizedMessage(), e);
+                return;
             }
-
-            if(args.containsOption("set-pixel")) {
-                int x = Integer.parseInt(args.getOptionValues("x").get(0));
-                int y = Integer.parseInt(args.getOptionValues("y").get(0));
-
-                String color = args.getOptionValues("color").get(0);
-
-                senseHat.setPixel(x, y, color);
-            }
-
-            if(args.containsOption("50-shades")) {
-                for (int i = 0; i < 64; i++) {
-
-                    int r = i/2;
-                    int g = i;
-                    int b = i/2;
-
-                    senseHat.setPixelRaw(i % 8, i / 8, (r << 11) + (g << 5) + b);
-                }
-            }
-        };
+            commands.get(parsedCommand).run(senseHat);
+        } else {
+            jCommander.usage();
+        }
     }
 }

@@ -1,9 +1,13 @@
 plugins {
     id "java"
-    id "org.springframework.boot" version "1.5.3.RELEASE"
+    id "application"
 }
 
+mainClassName = "de.larsgrefer.sense_hat.tester.SenseHatTester"
+
 dependencies {
-    compileOnly "org.projectlombok:lombok"
-    compile project(":spring-boot-starter")
+    compileOnly "org.projectlombok:lombok:1.+"
+    compile project(":sense-hat")
+    compile "com.beust:jcommander:1.71"
+    compile "org.slf4j:slf4j-simple:1.7.25"
 }
