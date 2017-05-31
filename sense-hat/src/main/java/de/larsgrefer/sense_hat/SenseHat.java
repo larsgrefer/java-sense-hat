@@ -12,13 +12,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-import static de.larsgrefer.sense_hat.FrameBufferHelper.toSenseHatColor;
-
 @RequiredArgsConstructor
 @ToString
 public class SenseHat {
-
-    public static final String SENSE_HAT_FB_NAME = "RPi-Sense FB";
 
     private final File frameBuffer;
 
@@ -27,49 +23,17 @@ public class SenseHat {
                 .orElseThrow(() -> new IllegalStateException("No Framebuffer found"));
     }
 
-    public void fillColor(double red, double green, double blue) throws IOException {
-        fillColorRaw(toSenseHatColor(red, green, blue));
-    }
-
-    public void fillColor(int red, int green, int blue) throws IOException {
-        fillColorRaw(toSenseHatColor(red, green, blue));
-    }
-
-    public void fillColor(int color) throws IOException {
-        fillColorRaw(toSenseHatColor(color));
-    }
-
-    public void fillColor(String color) throws IOException {
-        fillColorRaw(toSenseHatColor(color));
-    }
-
-    public void fillColorRaw(int senseHatColor) throws IOException {
+    public void fill(SenseHatColor senseHatColor) throws IOException {
         try (BufferedSink buffer = Okio.buffer(Okio.sink(frameBuffer))) {
 
             for (int i = 0; i < 64; i++) {
-                buffer.writeShortLe(senseHatColor);
+                buffer.writeShortLe(senseHatColor.getSenseHatColor());
             }
             buffer.flush();
         }
     }
 
-    public void setPixel(int x, int y, int color) throws IOException {
-        setPixelRaw(x, y, toSenseHatColor(color));
-    }
-
-    public void setPixel(int x, int y, String color) throws IOException {
-        setPixelRaw(x, y, toSenseHatColor(color));
-    }
-
-    public void setPixel(int x, int y, int red, int green, int blue) throws IOException {
-        setPixelRaw(x, y, toSenseHatColor(red, green, blue));
-    }
-
-    public void setPixel(int x, int y, double red, double green, double blue) throws IOException {
-        setPixelRaw(x, y, toSenseHatColor(red, green, blue));
-    }
-
-    public void setPixelRaw(int x, int y, int senseHatColor) throws IOException {
+    public void setPixel(int x, int y, SenseHatColor senseHatColor) throws IOException {
         if (x < 0 || x > 7) throw new IndexOutOfBoundsException("x");
         if (y < 0 || y > 7) throw new IndexOutOfBoundsException("y");
 
@@ -77,9 +41,11 @@ public class SenseHat {
 
         try (RandomAccessFile randomAccessFile = new RandomAccessFile(frameBuffer, "rw")) {
 
+            int color = senseHatColor.getSenseHatColor();
+
             randomAccessFile.seek(pixNum * 2);
-            randomAccessFile.write((senseHatColor) & 0xFF);
-            randomAccessFile.write((senseHatColor >>> 8) & 0xFF);
+            randomAccessFile.write(color & 0xFF);
+            randomAccessFile.write((color >>> 8) & 0xFF);
         }
     }
 

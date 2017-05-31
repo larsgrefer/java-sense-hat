@@ -3,6 +3,7 @@ package de.larsgrefer.sense_hat.tester;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 import de.larsgrefer.sense_hat.SenseHat;
+import de.larsgrefer.sense_hat.SenseHatColor;
 
 import java.io.IOException;
 
@@ -23,6 +24,6 @@ public class SetPixelCommand implements Command {
 
     @Override
     public void run(SenseHat senseHat) throws IOException {
-        senseHat.setPixel(x, y, color);
+        senseHat.setPixel(x, y, SenseHatColor.fromString(color));
     }
 }
