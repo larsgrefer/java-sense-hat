@@ -6,6 +6,7 @@ import okio.BufferedSink;
 import okio.BufferedSource;
 import okio.Okio;
 
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -65,5 +66,26 @@ public class SenseHat {
         }
 
         return image;
+    }
+
+    public void setImage(BufferedImage image) throws IOException {
+        if (image.getType() == BufferedImage.TYPE_USHORT_565_RGB) {
+
+            short[] data = (short[]) image.getRaster().getDataElements(0, 0, 8, 8, new short[64]);
+
+            try (BufferedSink buffer = Okio.buffer(Okio.sink(frameBuffer))) {
+
+                for (int i = 0; i < 64; i++) {
+                    buffer.writeShortLe(data[i]);
+                }
+                buffer.flush();
+            }
+        } else {
+            BufferedImage convertedImg = new BufferedImage(8, 8, BufferedImage.TYPE_USHORT_565_RGB);
+            Graphics graphics = convertedImg.getGraphics();
+            graphics.drawImage(image, 0, 0, null);
+
+            setImage(convertedImg);
+        }
     }
 }

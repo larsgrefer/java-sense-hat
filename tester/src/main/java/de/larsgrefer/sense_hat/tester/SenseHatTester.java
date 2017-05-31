@@ -32,6 +32,7 @@ public class SenseHatTester {
         commands.put("fill", new FillCommand());
         commands.put("set-pixel", new SetPixelCommand());
         commands.put("save-image", new SaveImageCommand());
+        commands.put("load-image", new LoadImageCommand());
 
         JCommander.Builder builder = JCommander.newBuilder()
                 .addObject(senseHatTester);
