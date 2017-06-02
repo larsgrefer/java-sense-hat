@@ -13,6 +13,10 @@ dependencies {
     compile 'com.squareup.okio:okio:1.13.0'
     compileOnly 'org.projectlombok:lombok:1.16.16'
 
+    // https://mvnrepository.com/artifact/net.java.dev.jna/jna
+    compile 'net.java.dev.jna:jna:4.4.0'
+    compile 'net.java.dev.jna:jna-platform:4.4.0'
+
     testCompile 'junit:junit:4.12'
     testCompile 'org.assertj:assertj-core:3.8.0'
 }

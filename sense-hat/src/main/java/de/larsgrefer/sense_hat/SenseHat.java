@@ -1,5 +1,6 @@
 package de.larsgrefer.sense_hat;
 
+import com.sun.jna.Native;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import okio.BufferedSink;
@@ -18,10 +19,12 @@ import java.io.RandomAccessFile;
 public class SenseHat {
 
     private final File frameBuffer;
+    private final RTIMULib rtimuLib;
 
     public SenseHat() throws IOException {
         frameBuffer = FrameBufferHelper.findDeviceFile()
                 .orElseThrow(() -> new IllegalStateException("No Framebuffer found"));
+        rtimuLib = Native.loadLibrary("RTIMULib", RTIMULib.class);
     }
 
     public void fill(SenseHatColor senseHatColor) throws IOException {

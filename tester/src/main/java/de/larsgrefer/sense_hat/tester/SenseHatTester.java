@@ -53,7 +53,7 @@ public class SenseHatTester {
             SenseHat senseHat;
             try {
                 if(senseHatTester.getFrameBuffer() != null) {
-                    senseHat = new SenseHat(senseHatTester.getFrameBuffer());
+                    senseHat = new SenseHat(senseHatTester.getFrameBuffer(), null);
                 } else {
                     senseHat = new SenseHat();
                 }
