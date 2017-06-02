@@ -100,6 +100,34 @@ public class SenseHat {
         }
     }
 
+    public SenseHatColor[][] getColors() throws IOException {
+        SenseHatColor[][] colors = new SenseHatColor[8][8];
+
+        try (BufferedSource buffer = Okio.buffer(Okio.source(frameBuffer))) {
+
+            for (int i = 0; i < 64; i++) {
+                colors[i / 8][i % 8] = new SenseHatColor(buffer.readShortLe());
+            }
+
+            return colors;
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void setColors(SenseHatColor[][] colors) throws IOException {
+        if (colors.length != 8) throw new IllegalArgumentException(new IndexOutOfBoundsException());
+
+        try (BufferedSink buffer = Okio.buffer(Okio.sink(frameBuffer))) {
+
+            for (int i = 0; i < 64; i++) {
+                SenseHatColor color = colors[i / 8][i % 8];
+                buffer.writeShortLe(color == null ? 0 : color.getSenseHatColor());
+            }
+            buffer.flush();
+        }
+    }
+
     public double getPressure() {
         return environmentSensorAdapter.getPressure();
     }

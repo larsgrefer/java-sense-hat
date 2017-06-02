@@ -34,6 +34,7 @@ public class SenseHatTester {
         commands.put("save-image", new SaveImageCommand());
         commands.put("load-image", new LoadImageCommand());
         commands.put("env", new EnvCommand());
+        commands.put("pulse", new PulseCommand());
 
         JCommander.Builder builder = JCommander.newBuilder()
                 .addObject(senseHatTester);
