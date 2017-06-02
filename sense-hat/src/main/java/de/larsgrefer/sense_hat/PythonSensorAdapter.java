@@ -9,7 +9,7 @@ import java.io.IOException;
  * @author Lars Grefer
  */
 @Slf4j
-public class PythonSensorAdapter implements PressureSensorAdapter, HumiditySensorAdapter {
+public class PythonSensorAdapter implements EnvironmentSensorAdapter {
     @Override
     public double getPressure() {
         String rawPressure = callSenseHatGetter("get_pressure");
@@ -24,7 +24,15 @@ public class PythonSensorAdapter implements PressureSensorAdapter, HumiditySenso
         return Double.parseDouble(rawTemp);
     }
 
+    @Override
+    public double getHumidity() {
+        return Double.parseDouble(callSenseHatGetter("get_humidity"));
+    }
 
+    @Override
+    public double getTemperatureFromHumidity() {
+        return Double.parseDouble(callSenseHatGetter("get_temperature_from_humidity"));
+    }
 
     private String callSenseHatGetter(String getterName) {
         return execPythonCode(String.format("print sense.%s()", getterName));
@@ -56,13 +64,5 @@ public class PythonSensorAdapter implements PressureSensorAdapter, HumiditySenso
         }
     }
 
-    @Override
-    public double getHumidity() {
-        return Double.parseDouble(callSenseHatGetter("get_humidity"));
-    }
 
-    @Override
-    public double getTemperatureFromHumidity() {
-        return Double.parseDouble(callSenseHatGetter("get_temperature_from_humidity"));
-    }
 }

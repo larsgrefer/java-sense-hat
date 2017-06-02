@@ -6,28 +6,33 @@ import okio.BufferedSink;
 import okio.BufferedSource;
 import okio.Okio;
 
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+/**
+ * @author Lars Grefer
+ */
 @RequiredArgsConstructor
 @ToString
 public class SenseHat {
 
     private final File frameBuffer;
-    private final PressureSensorAdapter pressureAdapter;
-    private final HumiditySensorAdapter humiditySensorAdapter;
+    private final EnvironmentSensorAdapter environmentSensorAdapter;
 
     public SenseHat() throws IOException {
         frameBuffer = FrameBufferHelper.findDeviceFile()
                 .orElseThrow(() -> new IllegalStateException("No Framebuffer found"));
-        PythonSensorAdapter pythonSensorAdapter = new PythonSensorAdapter();
-        pressureAdapter = pythonSensorAdapter;
-        humiditySensorAdapter = pythonSensorAdapter;
+        environmentSensorAdapter = new PythonSensorAdapter();
 
+    }
+
+    public SenseHat(File frameBuffer) {
+        this.frameBuffer = frameBuffer;
+        environmentSensorAdapter = new PythonSensorAdapter();
     }
 
     public void fill(SenseHatColor senseHatColor) throws IOException {
@@ -96,19 +101,19 @@ public class SenseHat {
     }
 
     public double getPressure() {
-        return pressureAdapter.getPressure();
+        return environmentSensorAdapter.getPressure();
     }
 
     public double getTemperatureFromPressure() {
-        return pressureAdapter.getTemperatureFromPressure();
+        return environmentSensorAdapter.getTemperatureFromPressure();
     }
 
     public double getHumidity() {
-        return humiditySensorAdapter.getHumidity();
+        return environmentSensorAdapter.getHumidity();
     }
 
     public double getTemperatureFromHumidity() {
-        return humiditySensorAdapter.getTemperatureFromHumidity();
+        return environmentSensorAdapter.getTemperatureFromHumidity();
     }
 
     public double getTemperature() {

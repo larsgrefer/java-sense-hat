@@ -2,7 +2,6 @@ package de.larsgrefer.sense_hat.tester;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
-import de.larsgrefer.sense_hat.PythonSensorAdapter;
 import de.larsgrefer.sense_hat.SenseHat;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -55,8 +54,7 @@ public class SenseHatTester {
             SenseHat senseHat;
             try {
                 if(senseHatTester.getFrameBuffer() != null) {
-                    PythonSensorAdapter pythonSensorAdapter = new PythonSensorAdapter();
-                    senseHat = new SenseHat(senseHatTester.getFrameBuffer(), pythonSensorAdapter, pythonSensorAdapter);
+                    senseHat = new SenseHat(senseHatTester.getFrameBuffer());
                 } else {
                     senseHat = new SenseHat();
                 }

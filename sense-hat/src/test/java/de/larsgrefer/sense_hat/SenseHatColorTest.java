@@ -6,7 +6,7 @@ import org.junit.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * Created by larsgrefer on 29.05.17.
+ * @author Lars Grefer
  */
 public class SenseHatColorTest {
     @Test
