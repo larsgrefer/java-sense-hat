@@ -94,4 +94,8 @@ public class SenseHat {
     public double getPressure() {
         return pressureAdapter.getPressure();
     }
+
+    public double getTemperatureFromPressure() {
+        return pressureAdapter.getTemperatureFromPressure();
+    }
 }
