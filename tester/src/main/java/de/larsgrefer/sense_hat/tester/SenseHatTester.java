@@ -34,7 +34,7 @@ public class SenseHatTester {
         commands.put("set-pixel", new SetPixelCommand());
         commands.put("save-image", new SaveImageCommand());
         commands.put("load-image", new LoadImageCommand());
-        commands.put("pressure", new EnvCommand());
+        commands.put("env", new EnvCommand());
 
         JCommander.Builder builder = JCommander.newBuilder()
                 .addObject(senseHatTester);
@@ -55,7 +55,8 @@ public class SenseHatTester {
             SenseHat senseHat;
             try {
                 if(senseHatTester.getFrameBuffer() != null) {
-                    senseHat = new SenseHat(senseHatTester.getFrameBuffer(), new PythonSensorAdapter());
+                    PythonSensorAdapter pythonSensorAdapter = new PythonSensorAdapter();
+                    senseHat = new SenseHat(senseHatTester.getFrameBuffer(), pythonSensorAdapter, pythonSensorAdapter);
                 } else {
                     senseHat = new SenseHat();
                 }

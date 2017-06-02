@@ -9,19 +9,25 @@ import java.io.IOException;
  * @author Lars Grefer
  */
 @Slf4j
-public class PythonSensorAdapter implements PressureAdapter {
+public class PythonSensorAdapter implements PressureSensorAdapter, HumiditySensorAdapter {
     @Override
     public double getPressure() {
-        String rawPressure = execPythonCode("print sense.get_pressure()");
+        String rawPressure = callSenseHatGetter("get_pressure");
 
         return Double.parseDouble(rawPressure);
     }
 
     @Override
     public double getTemperatureFromPressure() {
-        String rawTemp = execPythonCode("pring sense.get_temperature_from_pressure()");
+        String rawTemp = callSenseHatGetter("get_temperature_from_pressure");
 
         return Double.parseDouble(rawTemp);
+    }
+
+
+
+    private String callSenseHatGetter(String getterName) {
+        return execPythonCode(String.format("print sense.%s()", getterName));
     }
 
     private String execPythonCode(String line) {
@@ -37,7 +43,7 @@ public class PythonSensorAdapter implements PressureAdapter {
 
             int exitCode = process.waitFor();
 
-            if(exitCode == 0) {
+            if (exitCode == 0) {
                 return Okio.buffer(Okio.source(process.getInputStream())).readUtf8();
             } else {
                 log.error("Python exited with code {}", exitCode);
@@ -48,5 +54,15 @@ public class PythonSensorAdapter implements PressureAdapter {
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public double getHumidity() {
+        return Double.parseDouble(callSenseHatGetter("get_humidity"));
+    }
+
+    @Override
+    public double getTemperatureFromHumidity() {
+        return Double.parseDouble(callSenseHatGetter("get_temperature_from_humidity"));
     }
 }

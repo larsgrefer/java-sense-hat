@@ -1,9 +1,9 @@
 package de.larsgrefer.sense_hat;
 
 /**
- * Created by larsgrefer on 02.06.17.
+ * @author Lars Grefer
  */
-public interface PressureAdapter {
+public interface PressureSensorAdapter {
 
     double getPressure();
 

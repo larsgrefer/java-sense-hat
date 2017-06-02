@@ -18,12 +18,16 @@ import java.io.RandomAccessFile;
 public class SenseHat {
 
     private final File frameBuffer;
-    private final PressureAdapter pressureAdapter;
+    private final PressureSensorAdapter pressureAdapter;
+    private final HumiditySensorAdapter humiditySensorAdapter;
 
     public SenseHat() throws IOException {
         frameBuffer = FrameBufferHelper.findDeviceFile()
                 .orElseThrow(() -> new IllegalStateException("No Framebuffer found"));
-        pressureAdapter = new PythonSensorAdapter();
+        PythonSensorAdapter pythonSensorAdapter = new PythonSensorAdapter();
+        pressureAdapter = pythonSensorAdapter;
+        humiditySensorAdapter = pythonSensorAdapter;
+
     }
 
     public void fill(SenseHatColor senseHatColor) throws IOException {
@@ -97,5 +101,17 @@ public class SenseHat {
 
     public double getTemperatureFromPressure() {
         return pressureAdapter.getTemperatureFromPressure();
+    }
+
+    public double getHumidity() {
+        return humiditySensorAdapter.getHumidity();
+    }
+
+    public double getTemperatureFromHumidity() {
+        return humiditySensorAdapter.getTemperatureFromHumidity();
+    }
+
+    public double getTemperature() {
+        return (getTemperatureFromHumidity() + getTemperatureFromHumidity()) / 2;
     }
 }
