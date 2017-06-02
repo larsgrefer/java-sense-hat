@@ -2,6 +2,7 @@ package de.larsgrefer.sense_hat.tester;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
+import de.larsgrefer.sense_hat.PythonSensorAdapter;
 import de.larsgrefer.sense_hat.SenseHat;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,7 @@ public class SenseHatTester {
         commands.put("set-pixel", new SetPixelCommand());
         commands.put("save-image", new SaveImageCommand());
         commands.put("load-image", new LoadImageCommand());
+        commands.put("pressure", new PressureCommand());
 
         JCommander.Builder builder = JCommander.newBuilder()
                 .addObject(senseHatTester);
@@ -53,7 +55,7 @@ public class SenseHatTester {
             SenseHat senseHat;
             try {
                 if(senseHatTester.getFrameBuffer() != null) {
-                    senseHat = new SenseHat(senseHatTester.getFrameBuffer());
+                    senseHat = new SenseHat(senseHatTester.getFrameBuffer(), new PythonSensorAdapter());
                 } else {
                     senseHat = new SenseHat();
                 }

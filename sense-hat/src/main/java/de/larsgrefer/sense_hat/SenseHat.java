@@ -18,10 +18,12 @@ import java.io.RandomAccessFile;
 public class SenseHat {
 
     private final File frameBuffer;
+    private final PressureAdapter pressureAdapter;
 
     public SenseHat() throws IOException {
         frameBuffer = FrameBufferHelper.findDeviceFile()
                 .orElseThrow(() -> new IllegalStateException("No Framebuffer found"));
+        pressureAdapter = new PythonSensorAdapter();
     }
 
     public void fill(SenseHatColor senseHatColor) throws IOException {
@@ -87,5 +89,9 @@ public class SenseHat {
 
             setImage(convertedImg);
         }
+    }
+
+    public double getPressure() {
+        return pressureAdapter.getPressure();
     }
 }
