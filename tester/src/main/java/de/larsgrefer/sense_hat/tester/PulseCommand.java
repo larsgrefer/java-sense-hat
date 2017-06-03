@@ -39,6 +39,12 @@ public class PulseCommand implements Command {
                     useGreen ? factor : 0d,
                     useBlue ? factor : 0d
             ));
+
+            try {
+                Thread.sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
