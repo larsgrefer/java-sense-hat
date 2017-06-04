@@ -19,21 +19,27 @@ public class SenseHatColor {
     }
 
     SenseHatColor(int r, int g, int b) {
+        if (r < 0 || r >= 32) throw new IllegalArgumentException("red must be between 0 and 31");
+        if (g < 0 || g >= 64) throw new IllegalArgumentException("green must be between 0 and 63");
+        if (b < 0 || b >= 32) throw new IllegalArgumentException("blue must be between 0 and 31");
+
         senseHatColor = (r << 11) + (g << 5) + b;
     }
 
-    public double getRed() {
-        int red = (senseHatColor >>> 11) & 0x1F;
-
-        return red / 31d;
+    public short getRedRaw() {
+        return (short) ((senseHatColor >>> 11) & 0b11111);
     }
 
-    public SenseHatColor withRed(short red) {
+    public double getRed() {
+        return getRedRaw() / 31d;
+    }
+
+    public SenseHatColor withRedRaw(short red) {
         if (red < 0 || red >= 32) throw new IllegalArgumentException("red must be between 0 and 31");
 
         int newColor = getSenseHatColor();
 
-        newColor &= ~(0x1f << 11);
+        newColor &= 0b0000011111111111;
         if (red != 0) {
             newColor |= (red) << 11;
         }
@@ -44,21 +50,23 @@ public class SenseHatColor {
     public SenseHatColor withRed(double red) {
         if (red < 0d || red > 1d) throw new IllegalArgumentException("red must be between 0.0 and 1.0");
 
-        return withRed((short) (red * 31d));
+        return withRedRaw((short) Math.round(red * 31d));
+    }
+
+    public short getGreenRaw() {
+        return (short) ((senseHatColor >>> 5) & 0b111111);
     }
 
     public double getGreen() {
-        int green = (senseHatColor >>> 5) & 0x3F;
-
-        return green / 63d;
+        return getGreenRaw() / 63d;
     }
 
-    public SenseHatColor withGreen(short green) {
-        if (green < 0 || green >= 64) throw new IllegalArgumentException("red must be between 0 and 63");
+    public SenseHatColor withGreenRaw(short green) {
+        if (green < 0 || green >= 64) throw new IllegalArgumentException("green must be between 0 and 63");
 
         int newColor = getSenseHatColor();
 
-        newColor &= ~(0x3f << 5);
+        newColor &= 0b1111100000011111;
         if (green != 0) {
             newColor |= green << 5;
         }
@@ -69,21 +77,23 @@ public class SenseHatColor {
     public SenseHatColor withGreen(double green) {
         if (green < 0d || green > 1d) throw new IllegalArgumentException("green must be between 0.0 and 1.0");
 
-        return withGreen((short) (green * 63d));
+        return withGreenRaw((short) Math.round(green * 63d));
+    }
+
+    public short getBlueRaw() {
+        return (short) (senseHatColor & 0b11111);
     }
 
     public double getBlue() {
-        int blue = senseHatColor & 0x1F;
-
-        return blue / 31d;
+        return getBlueRaw() / 31d;
     }
 
-    public SenseHatColor withBlue(short blue) {
+    public SenseHatColor withBlueRaw(short blue) {
         if (blue < 0 || blue >= 32) throw new IllegalArgumentException("blue must be between 0 and 31");
 
         int newColor = getSenseHatColor();
 
-        newColor &= ~0x1f;
+        newColor &= 0b1111111111100000;
         if (blue != 0) {
             newColor |= blue;
         }
@@ -94,25 +104,129 @@ public class SenseHatColor {
     public SenseHatColor withBlue(double blue) {
         if (blue < 0d || blue > 1d) throw new IllegalArgumentException("blue must be between 0.0 and 1.0");
 
-        return withBlue((short) (blue * 31d));
+        return withBlueRaw((short) Math.round(blue * 31d));
+    }
+
+    public SenseHatColor plus(SenseHatColor other) {
+        int newRed = getRedRaw() + other.getRedRaw();
+        int newGreen = getGreenRaw() + other.getGreenRaw();
+        int newBlue = getBlueRaw() + other.getBlueRaw();
+
+        if (newRed > 31) {
+            newRed = 31;
+        }
+        if (newGreen > 63) {
+            newGreen = 63;
+        }
+        if (newBlue > 31) {
+            newBlue = 31;
+        }
+
+        return new SenseHatColor(newRed, newGreen, newBlue);
+    }
+
+    public SenseHatColor minus(SenseHatColor other) {
+        int newRed = getRedRaw() - other.getRedRaw();
+        int newGreen = getGreenRaw() - other.getGreenRaw();
+        int newBlue = getBlueRaw() - other.getBlueRaw();
+
+        if (newRed < 0) {
+            newRed = 0;
+        }
+        if (newGreen < 0) {
+            newGreen = 0;
+        }
+        if (newBlue < 0) {
+            newBlue = 0;
+        }
+
+        return new SenseHatColor(newRed, newGreen, newBlue);
+    }
+
+    public SenseHatColor multiply(double factor) {
+        int newRed = (int) Math.round(getRedRaw() * factor);
+        int newGreen = (int) Math.round(getGreenRaw() * factor);
+        int newBlue = (int) Math.round(getBlueRaw() * factor);
+
+        if (newRed < 0) {
+            newRed = 0;
+        } else if (newRed > 31) {
+            newRed = 31;
+        }
+
+        if (newGreen < 0) {
+            newGreen = 0;
+        } else if (newGreen > 63) {
+            newGreen = 63;
+        }
+
+        if (newBlue < 0) {
+            newBlue = 0;
+        } else if (newBlue > 31) {
+            newBlue = 31;
+        }
+
+        return new SenseHatColor(newRed, newGreen, newBlue);
+    }
+
+    public SenseHatColor divide(double divisor) {
+        return multiply(1d / divisor);
+    }
+
+    public SenseHatColor mix(SenseHatColor other) {
+        int newRed = getRedRaw() + other.getRedRaw();
+        int newGreen = getGreenRaw() + other.getGreenRaw();
+        int newBlue = getBlueRaw() + other.getBlueRaw();
+
+        newRed = (int) Math.round(newRed / 2d);
+        newGreen = (int) Math.round(newGreen / 2d);
+        newBlue = (int) Math.round(newBlue / 2d);
+
+        return new SenseHatColor(newRed, newGreen, newBlue);
+    }
+
+    public SenseHatColor mix(SenseHatColor other, double factor) {
+        if (factor < 0d || factor > 1d) throw new IllegalArgumentException("factor must be between 0.0 and 1.0");
+
+        if (factor == 0d) {
+            return this;
+        } else if (factor == 1d) {
+            return other;
+        }
+
+        double thisFactor = 1d - factor;
+
+        double thisRed = getRedRaw() * thisFactor;
+        double thisGreen = getGreenRaw() * thisFactor;
+        double thisBlue = getBlueRaw() * thisFactor;
+
+        double otherRed = other.getRedRaw() * factor;
+        double otherGreen = other.getGreenRaw() * factor;
+        double otherBlue = other.getBlueRaw() * factor;
+
+        int newRed = (int) Math.round(thisRed + otherRed);
+        int newGreen = (int) Math.round(thisGreen + otherGreen);
+        int newBlue = (int) Math.round(thisBlue + otherBlue);
+
+        return new SenseHatColor(newRed, newGreen, newBlue);
     }
 
     public static SenseHatColor fromRGB(int red, int green, int blue) {
-        int r = (red >> 3) & 0x1F;
-        int g = (green >> 2) & 0x3F;
-        int b = (blue >> 3) & 0x1F;
+        int r = (red >> 3) & 0b11111;
+        int g = (green >> 2) & 0b111111;
+        int b = (blue >> 3) & 0b11111;
 
         return new SenseHatColor(r, g, b);
     }
 
     public static SenseHatColor fromRGB(double red, double green, double blue) {
-        if (red < 0d || red > 1d) throw new IllegalArgumentException("The red component must be between 0 and 1");
-        if (green < 0d || green > 1d) throw new IllegalArgumentException("The green component must be between 0 and 1");
-        if (blue < 0d || blue > 1d) throw new IllegalArgumentException("The blue component must be between 0 and 1");
+        if (red < 0d || red > 1d) throw new IllegalArgumentException("The red component must be between 0.0 and 1.0");
+        if (green < 0d || green > 1d) throw new IllegalArgumentException("The green component must be between 0.0 and 1.0");
+        if (blue < 0d || blue > 1d) throw new IllegalArgumentException("The blue component must be between 0.0 and 1.0");
 
-        int r = (int) (red * 31);
-        int g = (int) (green * 63);
-        int b = (int) (blue * 31);
+        int r = (int) Math.round(red * 31);
+        int g = (int) Math.round(green * 63);
+        int b = (int) Math.round(blue * 31);
 
         return new SenseHatColor(r, g, b);
     }
@@ -131,15 +245,24 @@ public class SenseHatColor {
     public static SenseHatColor fromString(String color) {
         switch (color.toLowerCase()) {
             case "red":
-                return new SenseHatColor(0xF800);
+                return new SenseHatColor(0b1111100000000000);
             case "green":
-                return new SenseHatColor(0x7E0);
+                return new SenseHatColor(0b0000011111100000);
             case "blue":
-                return new SenseHatColor(0x1F);
+                return new SenseHatColor(0b0000000000011111);
+            case "yellow":
+                return new SenseHatColor(0b1111111111100000);
+            case "pink":
+            case "magenta":
+                return new SenseHatColor(0b1111100000011111);
+            case "cyan":
+                return new SenseHatColor(0b0000011111111111);
             case "white":
-                return new SenseHatColor(0xFFFF);
+                return new SenseHatColor(0b1111111111111111);
             case "black":
-                return new SenseHatColor(0x0000);
+                return new SenseHatColor(0b0000000000000000);
+            case "grey":
+                return fromRGB(0.5, 0.5, 0.5);
         }
 
         Matcher smallMatcher = SMALL_COLOR_HEX_PATTERN.matcher(color.toUpperCase());
@@ -163,5 +286,8 @@ public class SenseHatColor {
         throw new IllegalArgumentException();
     }
 
-
+    @Override
+    public String toString() {
+        return String.format("SenseHatColor(%04X)", senseHatColor);
+    }
 }

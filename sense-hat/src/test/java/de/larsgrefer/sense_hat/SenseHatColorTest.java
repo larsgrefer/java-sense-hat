@@ -120,4 +120,56 @@ public class SenseHatColorTest {
         assertThat(SenseHatColor.fromString("#0000FF").getSenseHatColor()).isEqualTo(0x001F);
     }
 
+    @Test
+    public void testWith() {
+        SenseHatColor white = SenseHatColor.fromString("FFF");
+        SenseHatColor black = SenseHatColor.fromString("000");
+
+        assertThat(black.withBlue(1).withGreen(1).withRed(1)).isEqualTo(white);
+        assertThat(white.withRed(0).withGreen(0).withBlue(0)).isEqualTo(black);
+
+        for(double factor = 0; factor <= 1d; factor += 0.001d) {
+            assertThat(black.withRed(factor).withGreen(factor).withBlue(factor)).isEqualTo(SenseHatColor.fromRGB(factor, factor, factor));
+            assertThat(white.withRed(factor).withGreen(factor).withBlue(factor)).isEqualTo(SenseHatColor.fromRGB(factor, factor, factor));
+        }
+    }
+
+    @Test
+    public void testPlus() {
+        SenseHatColor white = SenseHatColor.fromString("FFF");
+        SenseHatColor black = SenseHatColor.fromString("000");
+
+        assertThat(white.plus(black)).isEqualTo(white);
+        assertThat(white.plus(white)).isEqualTo(white);
+        assertThat(black.plus(black)).isEqualTo(black);
+
+        assertThat(SenseHatColor.fromString("F00").plus(SenseHatColor.fromString("00F")))
+                .isEqualTo(SenseHatColor.fromString("F0F"));
+    }
+
+    @Test
+    public void testMix() {
+        SenseHatColor white = SenseHatColor.fromString("FFF");
+        SenseHatColor black = SenseHatColor.fromString("000");
+
+        assertThat(white.mix(black)).isEqualTo(white.divide(2));
+        assertThat(white.mix(white)).isEqualTo(white);
+        assertThat(black.mix(black)).isEqualTo(black);
+
+        assertThat(SenseHatColor.fromString("F00").mix(SenseHatColor.fromString("00F")))
+                .isEqualTo(SenseHatColor.fromRGB(0.5, 0, 0.5));
+    }
+
+    @Test
+    public void testMix_factor() {
+        SenseHatColor white = SenseHatColor.fromString("FFF");
+        SenseHatColor black = SenseHatColor.fromString("000");
+
+        for (double factor = 0; factor <= 1; factor += 0.001d) {
+            assertThat(white.mix(black, factor)).isNotNull();
+            assertThat(white.mix(white, factor)).isNotNull();
+            assertThat(black.mix(black, factor)).isNotNull();
+        }
+    }
+
 }
