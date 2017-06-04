@@ -130,7 +130,7 @@ public class SenseHat {
             long start = System.currentTimeMillis();
             while (true) {
                 long currentDuration = System.currentTimeMillis() - start;
-                double factor = d / currentDuration;
+                double factor = currentDuration == 0 ? 0 : d / currentDuration;
 
                 if (factor < 1) {
                     for (int i = 0; i < 64; i++) {
