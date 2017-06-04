@@ -2,6 +2,7 @@ package de.larsgrefer.sense_hat;
 
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import okio.BufferedSink;
 import okio.BufferedSource;
 import okio.Okio;
@@ -19,6 +20,7 @@ import java.time.Duration;
  */
 @RequiredArgsConstructor
 @ToString
+@Slf4j
 public class SenseHat {
 
     private final File frameBuffer;
@@ -130,9 +132,9 @@ public class SenseHat {
             long start = System.currentTimeMillis();
             while (true) {
                 long currentDuration = System.currentTimeMillis() - start;
-                double factor = currentDuration == 0 ? 0 : d / currentDuration;
+                double factor = currentDuration / d;
 
-                if (factor < 1) {
+                if (factor < 1d) {
                     for (int i = 0; i < 64; i++) {
                         SenseHatColor old = new SenseHatColor(oldData[i]);
                         SenseHatColor newCol = new SenseHatColor(newData[i]);
@@ -143,7 +145,7 @@ public class SenseHat {
                     try {
                         Thread.sleep(5);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        log.error(e.getLocalizedMessage(), e);
                     }
                 } else {
                     setDisplayData(newData);
