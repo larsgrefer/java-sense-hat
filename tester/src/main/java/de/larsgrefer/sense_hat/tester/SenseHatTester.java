@@ -3,6 +3,7 @@ package de.larsgrefer.sense_hat.tester;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import de.larsgrefer.sense_hat.SenseHat;
+import de.larsgrefer.sense_hat.tester.command.*;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,6 +36,7 @@ public class SenseHatTester {
         commands.put("load-image", new LoadImageCommand());
         commands.put("env", new EnvCommand());
         commands.put("pulse", new PulseCommand());
+        commands.put("text", new TextCommand());
 
         JCommander.Builder builder = JCommander.newBuilder()
                 .addObject(senseHatTester);

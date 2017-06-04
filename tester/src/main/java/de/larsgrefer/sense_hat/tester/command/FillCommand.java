@@ -1,9 +1,10 @@
-package de.larsgrefer.sense_hat.tester;
+package de.larsgrefer.sense_hat.tester.command;
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 import de.larsgrefer.sense_hat.SenseHat;
 import de.larsgrefer.sense_hat.SenseHatColor;
+import de.larsgrefer.sense_hat.tester.Command;
 import lombok.Getter;
 
 import java.io.IOException;
