@@ -7,15 +7,19 @@ import de.larsgrefer.sense_hat.TextDisplay;
 import de.larsgrefer.sense_hat.tester.Command;
 
 import java.io.IOException;
+import java.util.List;
 
 @Parameters(commandDescription = "Show Text")
 public class TextCommand implements Command {
 
     @Parameter
-    private String text;
+    private List<String> text;
 
     @Override
     public void run(SenseHat senseHat) throws IOException {
-        new TextDisplay(senseHat).displayText(text);
+        TextDisplay textDisplay = new TextDisplay(senseHat);
+        for (String line : text) {
+            textDisplay.displayText(line);
+        }
     }
 }
