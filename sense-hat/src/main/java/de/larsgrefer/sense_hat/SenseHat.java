@@ -135,11 +135,11 @@ public class SenseHat {
 
             short[] data = new short[64];
 
-            long d = duration.toMillis();
+            double durationInMillis = duration.toMillis();
             long start = System.currentTimeMillis();
             while (true) {
                 long currentDuration = System.currentTimeMillis() - start;
-                double factor = currentDuration / d;
+                double factor = currentDuration / durationInMillis;
 
                 if (factor < 1d) {
                     for (int i = 0; i < 64; i++) {
