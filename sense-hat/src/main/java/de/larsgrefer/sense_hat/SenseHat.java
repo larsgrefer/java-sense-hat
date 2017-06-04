@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.time.Duration;
 
 /**
  * @author Lars Grefer
@@ -64,39 +65,94 @@ public class SenseHat {
     public BufferedImage getImage() throws IOException {
         BufferedImage image = new BufferedImage(8, 8, BufferedImage.TYPE_USHORT_565_RGB);
 
+        short[] data = getDisplayData();
+        image.getRaster().setDataElements(0, 0, 8, 8, data);
+
+        return image;
+    }
+
+    private short[] getDisplayData() throws IOException {
+        short[] data = new short[64];
         try (BufferedSource buffer = Okio.buffer(Okio.source(frameBuffer))) {
-            short[] data = new short[64];
 
             for (int i = 0; i < 64; i++) {
                 data[i] = buffer.readShortLe();
             }
 
-            image.getRaster().setDataElements(0, 0, 8, 8, data);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+        return data;
+    }
 
-        return image;
+    private void setDisplayData(short[] displayData) throws IOException {
+        try (BufferedSink buffer = Okio.buffer(Okio.sink(frameBuffer))) {
+
+            for (int i = 0; i < 64; i++) {
+                buffer.writeShortLe(displayData[i]);
+            }
+            buffer.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setImage(BufferedImage image) throws IOException {
         if (image.getType() == BufferedImage.TYPE_USHORT_565_RGB) {
 
             short[] data = (short[]) image.getRaster().getDataElements(0, 0, 8, 8, new short[64]);
+            setDisplayData(data);
 
-            try (BufferedSink buffer = Okio.buffer(Okio.sink(frameBuffer))) {
-
-                for (int i = 0; i < 64; i++) {
-                    buffer.writeShortLe(data[i]);
-                }
-                buffer.flush();
-            }
         } else {
-            BufferedImage convertedImg = new BufferedImage(8, 8, BufferedImage.TYPE_USHORT_565_RGB);
-            Graphics graphics = convertedImg.getGraphics();
-            graphics.drawImage(image, 0, 0, null);
+            BufferedImage convertedImg = convertImage(image);
 
             setImage(convertedImg);
+        }
+    }
+
+    private BufferedImage convertImage(BufferedImage image) {
+        BufferedImage convertedImg = new BufferedImage(8, 8, BufferedImage.TYPE_USHORT_565_RGB);
+        Graphics graphics = convertedImg.getGraphics();
+        graphics.drawImage(image, 0, 0, null);
+        return convertedImg;
+    }
+
+    public void fadeTo(BufferedImage image, Duration duration) throws IOException {
+
+        if(image.getType() == BufferedImage.TYPE_USHORT_565_RGB) {
+            short[] oldData = getDisplayData();
+
+            short[] newData = (short[]) image.getRaster().getDataElements(0, 0, 8, 8, new short[64]);
+
+            short[] data = new short[64];
+
+            long d = duration.toMillis();
+            long start = System.currentTimeMillis();
+            while (true) {
+                long currentDuration = System.currentTimeMillis() - start;
+                double factor = d / currentDuration;
+
+                if (factor < 1) {
+                    for (int i = 0; i < 64; i++) {
+                        SenseHatColor old = new SenseHatColor(oldData[i]);
+                        SenseHatColor newCol = new SenseHatColor(newData[i]);
+
+                        data[i] = (short) old.mix(newCol, factor).getSenseHatColor();
+                    }
+                    setDisplayData(data);
+                    try {
+                        Thread.sleep(5);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    setDisplayData(newData);
+                    break;
+                }
+            }
+
+        } else {
+            fadeTo(convertImage(image), duration);
         }
     }
 
