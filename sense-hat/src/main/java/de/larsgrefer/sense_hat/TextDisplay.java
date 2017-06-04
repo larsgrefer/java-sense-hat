@@ -25,6 +25,8 @@ public class TextDisplay {
 
         Font sansSerif = new Font("SansSerif", Font.PLAIN, 8);
         graphics.setFont(sansSerif);
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
 
         int i = graphics.getFontMetrics().stringWidth(text);
 
@@ -38,7 +40,7 @@ public class TextDisplay {
             graphics.drawString(text, -j, 7);
             senseHat.setImage(image);
             try {
-                Thread.sleep(1000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 log.error(e.getLocalizedMessage(), e);
             }
