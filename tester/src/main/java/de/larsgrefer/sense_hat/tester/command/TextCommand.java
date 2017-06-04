@@ -18,17 +18,18 @@ public class TextCommand implements Command {
     private List<String> text;
 
     @Parameter(names = {"--color", "--foreground"})
-    private String color;
+    private String color = "FFF";
 
     @Parameter(names = {"--background"})
-    private String background;
+    private String background = "000";
 
     @Parameter(names = {"--duration"})
-    private int duration;
+    private int duration = 250;
 
     @Override
     public void run(SenseHat senseHat) throws IOException {
         TextDisplay textDisplay = new TextDisplay(senseHat);
+
 
         textDisplay.setForeground(SenseHatColor.fromString(this.color));
         textDisplay.setBackground(SenseHatColor.fromString(this.background));
