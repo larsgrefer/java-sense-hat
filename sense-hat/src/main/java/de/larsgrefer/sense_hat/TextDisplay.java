@@ -24,12 +24,18 @@ public class TextDisplay {
     private Color foreground = Color.WHITE;
     private Duration duration = Duration.ofMillis(250);
 
+    private boolean big = false;
+
     public void displayText(String text) throws IOException {
         BufferedImage image = new BufferedImage(8, 8, BufferedImage.TYPE_USHORT_565_RGB);
 
         Graphics2D graphics = image.createGraphics();
 
-        Font sansSerif = new Font("SansSerif", Font.PLAIN, 10);
+        if (big) {
+            text = text.toUpperCase();
+        }
+
+        Font sansSerif = new Font("SansSerif", Font.PLAIN, big ? 10 : 8);
         graphics.setFont(sansSerif);
         int i = graphics.getFontMetrics().stringWidth(text) - 8;
 
@@ -43,14 +49,16 @@ public class TextDisplay {
 
             graphics.setColor(foreground);
             graphics.setPaint(foreground);
-            graphics.drawString(text, -j, 8);
+            graphics.drawString(text, -j, big ? 8 : 7);
             senseHat.fadeTo(image, duration.dividedBy(2));
 
             long timeToSleep = durationInMillis - (System.currentTimeMillis() - start);
-            try {
-                Thread.sleep(timeToSleep);
-            } catch (InterruptedException e) {
-                log.error(e.getLocalizedMessage(), e);
+            if(timeToSleep > 0) {
+                try {
+                    Thread.sleep(timeToSleep);
+                } catch (InterruptedException e) {
+                    log.error(e.getLocalizedMessage(), e);
+                }
             }
         }
 

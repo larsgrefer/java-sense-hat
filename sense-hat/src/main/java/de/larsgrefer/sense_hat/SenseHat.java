@@ -147,7 +147,7 @@ public class SenseHat {
                     }
                     setDisplayData(data);
                     try {
-                        Thread.sleep(5);
+                        Thread.sleep(1);
                     } catch (InterruptedException e) {
                         log.error(e.getLocalizedMessage(), e);
                     }
