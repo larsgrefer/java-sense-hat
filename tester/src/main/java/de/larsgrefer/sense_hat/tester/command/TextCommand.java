@@ -26,14 +26,17 @@ public class TextCommand implements Command {
     @Parameter(names = {"--duration"})
     private int duration = 250;
 
+    @Parameter(names = "-a")
+    private boolean antialiasing;
+
     @Override
     public void run(SenseHat senseHat) throws IOException {
         TextDisplay textDisplay = new TextDisplay(senseHat);
 
-
         textDisplay.setForeground(SenseHatColor.fromString(this.color));
         textDisplay.setBackground(SenseHatColor.fromString(this.background));
         textDisplay.setDuration(Duration.ofMillis(duration));
+        textDisplay.setAntialiasing(antialiasing);
 
         for (String line : text) {
             textDisplay.displayText(line);

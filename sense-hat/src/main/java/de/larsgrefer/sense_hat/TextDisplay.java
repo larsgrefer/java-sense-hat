@@ -23,6 +23,7 @@ public class TextDisplay {
     private Color background = Color.BLACK;
     private Color foreground = Color.WHITE;
     private Duration duration = Duration.ofMillis(250);
+    private boolean antialiasing = true;
 
     public void displayText(String text) throws IOException {
         BufferedImage image = new BufferedImage(8, 8, BufferedImage.TYPE_USHORT_565_RGB);
@@ -31,9 +32,13 @@ public class TextDisplay {
 
         Font sansSerif = new Font("SansSerif", Font.PLAIN, 8);
         graphics.setFont(sansSerif);
-        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
+        if (antialiasing) {
+            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        } else {
+            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
+            graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+        }
         int i = graphics.getFontMetrics().stringWidth(text);
 
         for (int j = 0; j <= i; j++) {
