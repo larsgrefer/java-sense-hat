@@ -13,18 +13,13 @@ import java.io.IOException;
  */
 public class BinaryClockCommand implements Command {
 
-    @Parameter(names = {"--color", "--foreground"})
-    private String color = "0F0";
-
     @Parameter(names = {"--background"})
     private String background = "000";
-
 
     @Override
     public void run(SenseHat senseHat) throws IOException {
         BinaryClock binaryClock = new BinaryClock(senseHat);
 
-        binaryClock.setForeground(SenseHatColor.fromString(color));
         binaryClock.setBackground(SenseHatColor.fromString(background));
 
         binaryClock.run();

@@ -13,7 +13,7 @@ import java.time.Duration;
 import java.time.LocalTime;
 
 /**
- * Created by larsgrefer on 04.06.17.
+ * @author Lars Grefer
  */
 @RequiredArgsConstructor
 @Setter
@@ -24,7 +24,10 @@ public class BinaryClock implements Runnable {
     private final SenseHat senseHat;
 
     private Color background = Color.BLACK;
-    private Color foreground = Color.GREEN;
+
+    private Color hours = Color.RED;
+    private Color minutes = Color.GREEN;
+    private Color seconds = Color.BLUE;
 
     private Clock clock = Clock.systemDefaultZone();
 
@@ -37,22 +40,19 @@ public class BinaryClock implements Runnable {
         Graphics2D graphics = bufferedImage.createGraphics();
 
         while (!stop) {
-
             graphics.setBackground(background);
-            graphics.setColor(foreground);
-
             graphics.clearRect(0,0,8,8);
 
             LocalTime now = LocalTime.now(clock);
 
-            drawNumber(bufferedImage, 0, now.getHour()/10);
-            drawNumber(bufferedImage, 1, now.getHour()%10);
+            drawNumber(bufferedImage, 0, now.getHour()/10, hours);
+            drawNumber(bufferedImage, 1, now.getHour()%10, hours);
 
-            drawNumber(bufferedImage, 3, now.getMinute()/10);
-            drawNumber(bufferedImage, 4, now.getMinute()%10);
+            drawNumber(bufferedImage, 3, now.getMinute()/10, minutes);
+            drawNumber(bufferedImage, 4, now.getMinute()%10, minutes);
 
-            drawNumber(bufferedImage, 6, now.getSecond()/10);
-            drawNumber(bufferedImage, 7, now.getSecond()%10);
+            drawNumber(bufferedImage, 6, now.getSecond()/10, seconds);
+            drawNumber(bufferedImage, 7, now.getSecond()%10, seconds);
 
             try {
                 senseHat.fadeTo(bufferedImage, Duration.ofMillis(500));
@@ -65,16 +65,24 @@ public class BinaryClock implements Runnable {
         graphics.dispose();
     }
 
-    private void drawNumber(BufferedImage image, int column, int number) {
-        for(int row = 6, bit = 0; bit <= 3; row--, bit++) {
+    private void drawNumber(BufferedImage image, int column, int number, Color color) {
+        for(int row = 5, bit = 0; bit <= 3; row--, bit++) {
             if (((number >>> bit) & 1) == 1) {
-                image.setRGB(column, row, foreground.getRGB());
+                image.setRGB(column, row, color.getRGB());
             }
         }
     }
 
-    public void setForeground(SenseHatColor foreground) {
-        this.foreground = foreground.toColor();
+    public void setHours(SenseHatColor hours) {
+        this.hours = hours.toColor();
+    }
+
+    public void setMinutes(SenseHatColor minutes) {
+        this.minutes = minutes.toColor();
+    }
+
+    public void setSeconds(SenseHatColor seconds) {
+        this.seconds = seconds.toColor();
     }
 
     public void setBackground(SenseHatColor background) {
