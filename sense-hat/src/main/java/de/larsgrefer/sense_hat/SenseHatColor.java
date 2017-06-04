@@ -235,6 +235,14 @@ public class SenseHatColor {
         return fromRGB(color.getRed(), color.getGreen(), color.getBlue());
     }
 
+    public Color toColor() {
+        return new Color(
+                (float) getRed(),
+                (float) getGreen(),
+                (float) getBlue()
+        );
+    }
+
     public static SenseHatColor fromRGB(int rgb) {
         return fromColor(new Color(rgb, false));
     }

@@ -22,6 +22,7 @@ public class TextDisplay {
     private final SenseHat senseHat;
     private Color background = Color.BLACK;
     private Color foreground = Color.WHITE;
+    private Duration duration = Duration.ofMillis(250);
 
     public void displayText(String text) throws IOException {
         BufferedImage image = new BufferedImage(8, 8, BufferedImage.TYPE_USHORT_565_RGB);
@@ -43,12 +44,18 @@ public class TextDisplay {
             graphics.setColor(foreground);
             graphics.setPaint(foreground);
             graphics.drawString(text, -j, 7);
-            senseHat.fadeTo(image, Duration.ofMillis(200));
+            senseHat.fadeTo(image, duration);
         }
 
         graphics.dispose();
 
+    }
 
+    public void setForeground(SenseHatColor foreground) {
+        this.foreground = foreground.toColor();
+    }
 
+    public void setBackground(SenseHatColor background) {
+        this.background = background.toColor();
     }
 }
