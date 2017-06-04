@@ -166,7 +166,7 @@ public class SenseHatColor {
             newBlue = 31;
         }
 
-        return new SenseHatColor(newRed, newGreen, newBlue);
+        return new SenseHatColor((short) newRed, (short) newGreen, (short) newBlue);
     }
 
     public SenseHatColor divide(double divisor) {
@@ -174,13 +174,13 @@ public class SenseHatColor {
     }
 
     public SenseHatColor mix(SenseHatColor other) {
-        int newRed = getRedRaw() + other.getRedRaw();
-        int newGreen = getGreenRaw() + other.getGreenRaw();
-        int newBlue = getBlueRaw() + other.getBlueRaw();
+        short newRed = (short) (getRedRaw() + other.getRedRaw());
+        short newGreen = (short) (getGreenRaw() + other.getGreenRaw());
+        short newBlue = (short) (getBlueRaw() + other.getBlueRaw());
 
-        newRed = (int) Math.round(newRed / 2d);
-        newGreen = (int) Math.round(newGreen / 2d);
-        newBlue = (int) Math.round(newBlue / 2d);
+        newRed = (short) Math.round(newRed / 2d);
+        newGreen = (short) Math.round(newGreen / 2d);
+        newBlue = (short) Math.round(newBlue / 2d);
 
         return new SenseHatColor(newRed, newGreen, newBlue);
     }
@@ -204,17 +204,17 @@ public class SenseHatColor {
         double otherGreen = other.getGreenRaw() * factor;
         double otherBlue = other.getBlueRaw() * factor;
 
-        int newRed = (int) Math.round(thisRed + otherRed);
-        int newGreen = (int) Math.round(thisGreen + otherGreen);
-        int newBlue = (int) Math.round(thisBlue + otherBlue);
+        short newRed = (short) Math.round(thisRed + otherRed);
+        short newGreen = (short) Math.round(thisGreen + otherGreen);
+        short newBlue = (short) Math.round(thisBlue + otherBlue);
 
         return new SenseHatColor(newRed, newGreen, newBlue);
     }
 
     public static SenseHatColor fromRGB(int red, int green, int blue) {
-        int r = (red >> 3) & 0b11111;
-        int g = (green >> 2) & 0b111111;
-        int b = (blue >> 3) & 0b11111;
+        short r = (short) ((red >> 3) & 0b11111);
+        short g = (short) ((green >> 2) & 0b111111);
+        short b = (short) ((blue >> 3) & 0b11111);
 
         return new SenseHatColor(r, g, b);
     }
@@ -224,9 +224,9 @@ public class SenseHatColor {
         if (green < 0d || green > 1d) throw new IllegalArgumentException("The green component must be between 0.0 and 1.0");
         if (blue < 0d || blue > 1d) throw new IllegalArgumentException("The blue component must be between 0.0 and 1.0");
 
-        int r = (int) Math.round(red * 31);
-        int g = (int) Math.round(green * 63);
-        int b = (int) Math.round(blue * 31);
+        short r = (short) Math.round(red * 31);
+        short g = (short) Math.round(green * 63);
+        short b = (short) Math.round(blue * 31);
 
         return new SenseHatColor(r, g, b);
     }

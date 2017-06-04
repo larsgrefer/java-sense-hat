@@ -22,6 +22,7 @@ public class TextDisplayTest {
     public void setUp() throws IOException {
         File fb = testFolder.newFile("fb");
         senseHat = new SenseHat(fb, new DummySensorAdapter());
+        senseHat.fill(SenseHatColor.fromRGB(0));
     }
 
     @Test

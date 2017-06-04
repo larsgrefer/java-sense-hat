@@ -95,7 +95,7 @@ public class SenseHat {
             }
             buffer.flush();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            log.error(e.getLocalizedMessage(), e);
         }
     }
 
@@ -123,8 +123,15 @@ public class SenseHat {
 
         if(image.getType() == BufferedImage.TYPE_USHORT_565_RGB) {
             short[] oldData = getDisplayData();
+            SenseHatColor[] oldColors = new SenseHatColor[64];
 
             short[] newData = (short[]) image.getRaster().getDataElements(0, 0, 8, 8, new short[64]);
+            SenseHatColor[] newColors = new SenseHatColor[64];
+
+            for (int i = 0; i < 64; i++) {
+                oldColors[i] = new SenseHatColor(oldData[i]);
+                newColors[i] = new SenseHatColor(newData[i]);
+            }
 
             short[] data = new short[64];
 
@@ -136,10 +143,7 @@ public class SenseHat {
 
                 if (factor < 1d) {
                     for (int i = 0; i < 64; i++) {
-                        SenseHatColor old = new SenseHatColor(oldData[i]);
-                        SenseHatColor newCol = new SenseHatColor(newData[i]);
-
-                        data[i] = (short) old.mix(newCol, factor).getSenseHatColor();
+                        data[i] = (short) oldColors[i].mix(newColors[i], factor).getSenseHatColor();
                     }
                     setDisplayData(data);
                     try {
