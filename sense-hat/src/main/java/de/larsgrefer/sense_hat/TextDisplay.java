@@ -29,7 +29,7 @@ public class TextDisplay {
 
         Graphics2D graphics = image.createGraphics();
 
-        Font sansSerif = new Font("SansSerif", Font.PLAIN, 8);
+        Font sansSerif = new Font("SansSerif", Font.PLAIN, 10);
         graphics.setFont(sansSerif);
         int i = graphics.getFontMetrics().stringWidth(text) - 8;
 
@@ -43,7 +43,7 @@ public class TextDisplay {
 
             graphics.setColor(foreground);
             graphics.setPaint(foreground);
-            graphics.drawString(text, -j, 6);
+            graphics.drawString(text, -j, 8);
             senseHat.fadeTo(image, duration.dividedBy(2));
 
             long timeToSleep = durationInMillis - (System.currentTimeMillis() - start);
