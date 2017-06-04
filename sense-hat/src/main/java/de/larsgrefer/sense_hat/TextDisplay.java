@@ -36,15 +36,25 @@ public class TextDisplay {
 
         int i = graphics.getFontMetrics().stringWidth(text);
 
-        for (int j = 0; j <= i; j++) {
+        long start = System.currentTimeMillis();
+        while(true) {
+            long d = System.currentTimeMillis() - start;
+
+            int j = (int) (d / duration.toMillis());
+            float factor = ((float) (d % duration.toMillis())) / duration.toMillis();
+
             graphics.setColor(background);
             graphics.setPaint(background);
             graphics.fillRect(0, 0, 8, 8);
 
             graphics.setColor(foreground);
             graphics.setPaint(foreground);
-            graphics.drawString(text, -j, 7);
-            senseHat.fadeTo(image, duration);
+            graphics.drawString(text, -j - factor, 7);
+            senseHat.setImage(image);
+
+            if(j > i) {
+                break;
+            }
         }
 
         graphics.dispose();
