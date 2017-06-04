@@ -23,7 +23,6 @@ public class TextDisplay {
     private Color background = Color.BLACK;
     private Color foreground = Color.WHITE;
     private Duration duration = Duration.ofMillis(250);
-    private boolean antialiasing = true;
 
     public void displayText(String text) throws IOException {
         BufferedImage image = new BufferedImage(8, 8, BufferedImage.TYPE_USHORT_565_RGB);
@@ -32,16 +31,12 @@ public class TextDisplay {
 
         Font sansSerif = new Font("SansSerif", Font.PLAIN, 8);
         graphics.setFont(sansSerif);
-        if (antialiasing) {
-            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        } else {
-            graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-            graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
-        }
         int i = graphics.getFontMetrics().stringWidth(text) - 8;
 
+        long durationInMillis = duration.toMillis();
+
         for (int j = 0; j <= i; j++) {
+            long start = System.currentTimeMillis();
             graphics.setColor(background);
             graphics.setPaint(background);
             graphics.fillRect(0, 0, 8, 8);
@@ -50,6 +45,13 @@ public class TextDisplay {
             graphics.setPaint(foreground);
             graphics.drawString(text, -j, 6);
             senseHat.fadeTo(image, duration.dividedBy(2));
+
+            long timeToSleep = durationInMillis - (System.currentTimeMillis() - start);
+            try {
+                Thread.sleep(timeToSleep);
+            } catch (InterruptedException e) {
+                log.error(e.getLocalizedMessage(), e);
+            }
         }
 
         graphics.dispose();
