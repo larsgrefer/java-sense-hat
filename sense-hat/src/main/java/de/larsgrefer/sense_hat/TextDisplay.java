@@ -38,6 +38,9 @@ public class TextDisplay {
         Font sansSerif = new Font("SansSerif", Font.PLAIN, big ? 10 : 8);
         graphics.setFont(sansSerif);
         int i = graphics.getFontMetrics().stringWidth(text) - 8;
+        if (i <= 0) {
+            i = 1;
+        }
 
         long durationInMillis = duration.toMillis();
 
@@ -63,8 +66,6 @@ public class TextDisplay {
         }
 
         graphics.dispose();
-
-
     }
 
     public void setForeground(SenseHatColor foreground) {

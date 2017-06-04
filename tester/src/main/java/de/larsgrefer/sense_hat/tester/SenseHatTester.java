@@ -37,6 +37,7 @@ public class SenseHatTester {
         commands.put("env", new EnvCommand());
         commands.put("pulse", new PulseCommand());
         commands.put("text", new TextCommand());
+        commands.put("clock", new BinaryClockCommand());
 
         JCommander.Builder builder = JCommander.newBuilder()
                 .addObject(senseHatTester);
