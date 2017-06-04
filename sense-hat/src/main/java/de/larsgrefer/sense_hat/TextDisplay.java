@@ -37,7 +37,7 @@ public class TextDisplay {
             graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         } else {
             graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-            graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+            graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_GASP);
         }
         int i = graphics.getFontMetrics().stringWidth(text);
 
@@ -49,7 +49,7 @@ public class TextDisplay {
             graphics.setColor(foreground);
             graphics.setPaint(foreground);
             graphics.drawString(text, -j, 7);
-            senseHat.fadeTo(image, duration);
+            senseHat.fadeTo(image, duration.dividedBy(2));
         }
 
         graphics.dispose();
