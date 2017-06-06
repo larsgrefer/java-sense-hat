@@ -135,11 +135,13 @@ public class SenseHat {
 
             short[] data = new short[64];
 
-            double durationInMillis = duration.toMillis();
+            long sleepTime = Math.max(10, duration.toMillis() / 64);
+
+            float durationInMillis = duration.toMillis();
             long start = System.currentTimeMillis();
             while (true) {
                 long currentDuration = System.currentTimeMillis() - start;
-                double factor = currentDuration / durationInMillis;
+                float factor = currentDuration / durationInMillis;
 
                 if (factor < 1d) {
                     for (int i = 0; i < 64; i++) {
@@ -147,7 +149,7 @@ public class SenseHat {
                     }
                     setDisplayData(data);
                     try {
-                        Thread.sleep(1);
+                        Thread.sleep(sleepTime);
                     } catch (InterruptedException e) {
                         log.error(e.getLocalizedMessage(), e);
                     }

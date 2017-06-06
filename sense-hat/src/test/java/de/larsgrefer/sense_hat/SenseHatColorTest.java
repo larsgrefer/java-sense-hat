@@ -20,14 +20,14 @@ public class SenseHatColorTest {
     public void testSetRed() {
         SenseHatColor color = new SenseHatColor(0);
 
-        color = color.withRed(1d);
+        color = color.withRed(1f);
         assertThat(color.getRed()).isEqualTo(1);
 
-        color = color.withRed(0.5);
-        assertThat(color.getRed()).isEqualTo(0.5, Offset.offset(1/31d));
+        color = color.withRed(0.5f);
+        assertThat(color.getRed()).isEqualTo(0.5f, Offset.offset(1/31f));
 
         color = color.withRed(0);
-        assertThat(color.getRed()).isEqualTo(0, Offset.offset(1/31d));
+        assertThat(color.getRed()).isEqualTo(0, Offset.offset(1/31f));
     }
 
     @Test
@@ -51,7 +51,7 @@ public class SenseHatColorTest {
 
     @Test
     public void testDouble_white() {
-        assertThat(SenseHatColor.fromRGB(1d ,1d, 1d).getSenseHatColor()).isEqualTo(0xFFFF);
+        assertThat(SenseHatColor.fromRGB(1f ,1f, 1f).getSenseHatColor()).isEqualTo(0xFFFF);
     }
 
     @Test
@@ -70,7 +70,7 @@ public class SenseHatColorTest {
 
     @Test
     public void testDouble_black() {
-        assertThat(SenseHatColor.fromRGB(0d ,0d, 0d).getSenseHatColor()).isEqualTo(0x0000);
+        assertThat(SenseHatColor.fromRGB(0f ,0f, 0f).getSenseHatColor()).isEqualTo(0x0000);
     }
 
     @Test
@@ -89,7 +89,7 @@ public class SenseHatColorTest {
 
     @Test
     public void testDouble_red() {
-        assertThat(SenseHatColor.fromRGB(1d ,0d, 0d).getSenseHatColor()).isEqualTo(0xF800);
+        assertThat(SenseHatColor.fromRGB(1f ,0f, 0f).getSenseHatColor()).isEqualTo(0xF800);
     }
 
     @Test
@@ -108,7 +108,7 @@ public class SenseHatColorTest {
 
     @Test
     public void testDouble_blue() {
-        assertThat(SenseHatColor.fromRGB(0d ,0d, 1d).getSenseHatColor()).isEqualTo(0x001F);
+        assertThat(SenseHatColor.fromRGB(0f ,0f, 1f).getSenseHatColor()).isEqualTo(0x001F);
     }
 
     @Test
@@ -128,7 +128,7 @@ public class SenseHatColorTest {
         assertThat(black.withBlue(1).withGreen(1).withRed(1)).isEqualTo(white);
         assertThat(white.withRed(0).withGreen(0).withBlue(0)).isEqualTo(black);
 
-        for(double factor = 0; factor <= 1d; factor += 0.001d) {
+        for(float factor = 0; factor <= 1f; factor += 0.001f) {
             assertThat(black.withRed(factor).withGreen(factor).withBlue(factor)).isEqualTo(SenseHatColor.fromRGB(factor, factor, factor));
             assertThat(white.withRed(factor).withGreen(factor).withBlue(factor)).isEqualTo(SenseHatColor.fromRGB(factor, factor, factor));
         }
@@ -157,7 +157,7 @@ public class SenseHatColorTest {
         assertThat(black.mix(black)).isEqualTo(black);
 
         assertThat(SenseHatColor.fromString("F00").mix(SenseHatColor.fromString("00F")))
-                .isEqualTo(SenseHatColor.fromRGB(0.5, 0, 0.5));
+                .isEqualTo(SenseHatColor.fromRGB(0.5f, 0f, 0.5f));
     }
 
     @Test
@@ -165,7 +165,7 @@ public class SenseHatColorTest {
         SenseHatColor white = SenseHatColor.fromString("FFF");
         SenseHatColor black = SenseHatColor.fromString("000");
 
-        for (double factor = 0; factor <= 1; factor += 0.001d) {
+        for (float factor = 0; factor <= 1; factor += 0.001f) {
             assertThat(white.mix(black, factor)).isNotNull();
             assertThat(white.mix(white, factor)).isNotNull();
             assertThat(black.mix(black, factor)).isNotNull();
