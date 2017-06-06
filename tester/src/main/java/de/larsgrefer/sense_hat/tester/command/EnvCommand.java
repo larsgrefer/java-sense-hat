@@ -1,6 +1,7 @@
-package de.larsgrefer.sense_hat.tester;
+package de.larsgrefer.sense_hat.tester.command;
 
 import de.larsgrefer.sense_hat.SenseHat;
+import de.larsgrefer.sense_hat.tester.Command;
 
 import java.io.IOException;
 
