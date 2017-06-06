@@ -30,7 +30,7 @@ public class BigBinaryClock extends Clock {
     }
 
     private void drawNumber(BufferedImage image, int column, int number, Color color) {
-        for (int row = 3, bit = 0; bit <= 0; row--, bit++) {
+        for (int row = 3, bit = 0; bit <= 3; row--, bit++) {
             if (((number >>> bit) & 1) == 1) {
                 setBigPixel(image, column, row, color);
             } else {
