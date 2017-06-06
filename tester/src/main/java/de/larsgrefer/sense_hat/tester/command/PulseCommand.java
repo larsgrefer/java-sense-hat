@@ -1,9 +1,10 @@
-package de.larsgrefer.sense_hat.tester;
+package de.larsgrefer.sense_hat.tester.command;
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 import de.larsgrefer.sense_hat.SenseHat;
 import de.larsgrefer.sense_hat.SenseHatColor;
+import de.larsgrefer.sense_hat.tester.Command;
 
 import java.io.IOException;
 
@@ -32,16 +33,16 @@ public class PulseCommand implements Command {
 
             d = d % duration;
 
-            double factor = d / (double)duration;
+            float factor = d / (float)duration;
 
             senseHat.fill(SenseHatColor.fromRGB(
-                    useRed ? factor : 0d,
-                    useGreen ? factor : 0d,
-                    useBlue ? factor : 0d
+                    useRed ? factor : 0f,
+                    useGreen ? factor : 0f,
+                    useBlue ? factor : 0f
             ));
 
             try {
-                Thread.sleep(5);
+                Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
