@@ -9,7 +9,12 @@ archivesBaseName = "sense-hat-spring-boot-starter"
 
 bootRepackage.enabled = false
 
+compileJava.dependsOn(processResources)
+
 dependencies {
+    compileOnly 'org.projectlombok:lombok'
+    compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
+
     compile "org.springframework.boot:spring-boot-starter"
     compile project(":sense-hat")
 }

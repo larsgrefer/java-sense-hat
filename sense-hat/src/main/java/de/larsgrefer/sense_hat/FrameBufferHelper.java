@@ -23,8 +23,12 @@ public class FrameBufferHelper {
 
         File graphicsDir = new File("/sys/class/graphics");
 
-        if(!graphicsDir.exists() || !graphicsDir.isDirectory()) {
-            throw new RuntimeException(graphicsDir + "not found");
+        if (!graphicsDir.exists()) {
+            return Optional.empty();
+        }
+
+        if (!graphicsDir.isDirectory()) {
+            throw new RuntimeException(graphicsDir + " not found");
         }
 
         File[] frameBuffers = graphicsDir.listFiles(file -> file.isDirectory() && file.getName().startsWith("fb"));
