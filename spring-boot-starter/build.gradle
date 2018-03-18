@@ -1,19 +1,24 @@
 plugins {
     id "java"
     id "maven"
-    id "org.springframework.boot" version "1.5.3.RELEASE"
-    id "io.freefair.maven-jars" version "0.10.1"
+    id "io.spring.dependency-management" version "1.0.4.RELEASE"
+    id "io.freefair.maven-jars" version "2.3.1"
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.boot:spring-boot-dependencies:1.5.10.RELEASE"
+    }
 }
 
 archivesBaseName = "sense-hat-spring-boot-starter"
-
-bootRepackage.enabled = false
 
 compileJava.dependsOn(processResources)
 
 dependencies {
     compileOnly 'org.projectlombok:lombok'
-    compileOnly 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
     compile "org.springframework.boot:spring-boot-starter"
     compile project(":sense-hat")
