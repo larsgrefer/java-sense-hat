@@ -2,6 +2,8 @@ apply plugin: "java"
 apply plugin: "io.freefair.maven-publish-java"
 apply plugin: "io.freefair.maven-jars"
 
+description = "Sense HAT"
+
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.25'
     compile 'com.squareup.okio:okio:1.13.0'

@@ -41,6 +41,7 @@ allprojects {
                 pom {
                     url = 'https://github.com/larsgrefer/java-sense-hat'
                     name = provider { project.description }
+                    description = provider { project.description }
                     inceptionYear = '2017'
                     licenses {
                         license {

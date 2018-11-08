@@ -3,6 +3,8 @@ apply plugin: "io.freefair.maven-publish-java"
 apply plugin: "io.freefair.maven-jars"
 apply plugin: "io.spring.dependency-management"
 
+description = "Sense HAT Spring-Boot Starter"
+
 dependencyManagement {
     imports {
         mavenBom "org.springframework.boot:spring-boot-dependencies:1.5.13.RELEASE"
