@@ -41,11 +41,11 @@ allprojects {
                 pom {
                     url = 'https://github.com/larsgrefer/java-sense-hat'
                     name = provider { project.description }
-                    inceptionYear = '2016'
+                    inceptionYear = '2017'
                     licenses {
                         license {
-                            name = 'The Apache License, Version 2.0'
-                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                            name = 'The MIT License'
+                            url = 'https://opensource.org/licenses/MIT'
                         }
                     }
                     organization {
