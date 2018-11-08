@@ -10,6 +10,7 @@ dependencyManagement {
 }
 
 archivesBaseName = "sense-hat-spring-boot-starter"
+publishing.publications.mavenJava.artifactId = archivesBaseName
 
 compileJava.dependsOn(processResources)
 
