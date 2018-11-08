@@ -1,14 +1,11 @@
 plugins {
     id "java"
-    id "maven"
     id "application"
 }
 
 mainClassName = "de.larsgrefer.sense_hat.tester.SenseHatTester"
 
 dependencies {
-    annotationProcessor "org.projectlombok:lombok:1.+"
-    compileOnly "org.projectlombok:lombok:1.+"
     compile project(":sense-hat")
     compile "com.beust:jcommander:1.71"
     compile "org.slf4j:slf4j-simple:1.7.25"

@@ -2,6 +2,7 @@
 build/
 
 *.iml
+lombok.config
 
 # Created by https://www.gitignore.io/api/gradle,intellij
 

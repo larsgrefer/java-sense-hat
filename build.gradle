@@ -1,5 +1,92 @@
+buildscript {
+    repositories {
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        classpath "io.freefair.gradle:lombok-plugin:2.8.1"
+        classpath "io.freefair.gradle:maven-plugin:2.8.1"
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.6.RELEASE"
+    }
+}
+
 allprojects {
     repositories {
         jcenter()
+    }
+
+    group = "de.larsgrefer.sense-hat"
+
+    plugins.withId("java") {
+        project.apply plugin: "io.freefair.lombok"
+
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+
+        tasks.withType(JavaCompile) {
+            options.encoding = 'UTF-8'
+        }
+
+        javadoc.failOnError = false
+    }
+
+    plugins.withId("maven-publish") {
+        project.apply plugin: "signing"
+
+        signing {
+            required { !version.endsWith('SNAPSHOT') && gradle.taskGraph.hasTask("publish") }
+        }
+
+        publishing {
+            publications.withType(MavenPublication) {
+                pom {
+                    url = 'https://github.com/larsgrefer/java-sense-hat'
+                    name = provider { project.description }
+                    inceptionYear = '2016'
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+                    organization {
+                        name = 'Lars Grefer'
+                        url = 'https://github.com/larsgrefer/java-sense-hat'
+                    }
+                    developers {
+                        developer {
+                            id = 'larsgrefer'
+                            name = 'Lars Grefer'
+                            email = 'github@larsgrefer.de'
+                            timezone = 'Europe/Berlin'
+                        }
+                    }
+                    ciManagement {
+                        system = 'Travis CI'
+                        url = 'https://travis-ci.org/larsgrefer/java-sense-hat/'
+                    }
+                    issueManagement {
+                        system = 'Github'
+                        url = 'https://github.com/larsgrefer/java-sense-hat/issues'
+                    }
+                    scm {
+                        connection = 'scm:git:https://github.com/larsgrefer/java-sense-hat.git'
+                        developerConnection = 'scm:git:git@github.com:larsgrefer/java-sense-hat.git'
+                        url = 'https://github.com/larsgrefer/java-sense-hat/'
+                    }
+                }
+            }
+
+            repositories {
+                maven {
+                    def snapshotsRepoUrl = 'https://oss.sonatype.org/content/repositories/snapshots'
+                    def releasesRepoUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+                    url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+                    credentials {
+                        username = findProperty('ossrhUser')
+                        password = findProperty('ossrhPass')
+                    }
+                }
+            }
+        }
     }
 }
