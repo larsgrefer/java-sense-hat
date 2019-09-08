@@ -1,5 +1,11 @@
+plugins {
+    id "io.freefair.git-version" version "4.0.2"
+}
+
 allprojects {
     repositories {
-        jcenter()
+        mavenCentral()
     }
+
+    group = "de.larsgrefer.sense-hat"
 }

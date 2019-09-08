@@ -1,21 +1,12 @@
 plugins {
     id "java"
-    id "maven"
-    id "io.freefair.maven-jars" version "0.10.1"
-}
-
-repositories {
-    jcenter()
-}
-
-artifacts {
-    archives jar
+    id "io.freefair.maven-publish-java" version "4.0.2"
+    id "io.freefair.lombok" version "4.0.2"
 }
 
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.28'
     compile 'com.squareup.okio:okio:2.4.0'
-    compileOnly 'org.projectlombok:lombok:1.18.8'
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.assertj:assertj-core:3.13.2'

@@ -1,10 +1,14 @@
 plugins {
     id "java"
-    id "maven"
     id "application"
+    id "io.freefair.lombok" version "4.0.2"
 }
 
 mainClassName = "de.larsgrefer.sense_hat.tester.SenseHatTester"
+
+repositories {
+    jcenter()
+}
 
 dependencies {
     compileOnly "org.projectlombok:lombok:1.+"
