@@ -1,7 +1,8 @@
 plugins {
     id "java"
-    id "io.freefair.maven-publish-java" version "4.0.2"
+    id "io.freefair.maven-publish-java"
     id "io.freefair.lombok" version "4.0.2"
+    id "io.freefair.github.package-registry-maven-publish"
 }
 
 dependencies {

@@ -1,6 +1,7 @@
 plugins {
     id "java"
-    id "io.freefair.maven-publish-java" version "4.0.2"
+    id "io.freefair.maven-publish-java"
+    id "io.freefair.github.package-registry-maven-publish"
 }
 
 archivesBaseName = "sense-hat-spring-boot-starter"

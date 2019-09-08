@@ -1,5 +1,7 @@
 plugins {
     id "io.freefair.git-version" version "4.0.2"
+    id "io.freefair.maven-publish-java" version "4.0.2" apply false
+    id "io.freefair.github.base" version "4.0.2"
 }
 
 allprojects {
@@ -8,4 +10,10 @@ allprojects {
     }
 
     group = "de.larsgrefer.sense-hat"
+}
+
+github {
+    slug = "larsgrefer/java-sense-hat"
+    username = findProperty('githubUsername')
+    token = findProperty('githubToken')
 }
