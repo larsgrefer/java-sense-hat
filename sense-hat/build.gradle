@@ -14,7 +14,7 @@ artifacts {
 
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.28'
-    compile 'com.squareup.okio:okio:1.13.0'
+    compile 'com.squareup.okio:okio:2.4.0'
     compileOnly 'org.projectlombok:lombok:1.16.16'
 
     testCompile 'junit:junit:4.12'
