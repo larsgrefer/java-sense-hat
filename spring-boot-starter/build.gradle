@@ -1,14 +1,11 @@
 plugins {
     id "java"
-    id "org.springframework.boot" version "1.5.13.RELEASE"
     id "io.freefair.maven-publish-java" version "4.0.2"
 }
 
 archivesBaseName = "sense-hat-spring-boot-starter"
 
-bootRepackage.enabled = false
-
 dependencies {
-    compile "org.springframework.boot:spring-boot-starter"
+    compile "org.springframework.boot:spring-boot-starter:1.5.22.RELEASE"
     compile project(":sense-hat")
 }
