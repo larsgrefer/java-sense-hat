@@ -2,7 +2,7 @@ plugins {
     id "java"
     id "maven"
     id "org.springframework.boot" version "1.5.13.RELEASE"
-    id "io.freefair.maven-jars" version "0.10.1"
+    id "io.freefair.maven-jars" version "4.0.2"
 }
 
 archivesBaseName = "sense-hat-spring-boot-starter"
