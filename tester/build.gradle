@@ -1,7 +1,7 @@
 plugins {
     id "java"
     id "application"
-    id "io.freefair.lombok" version "4.1.0"
+    id "io.freefair.lombok" version "4.1.1"
 }
 
 mainClassName = "de.larsgrefer.sense_hat.tester.SenseHatTester"
