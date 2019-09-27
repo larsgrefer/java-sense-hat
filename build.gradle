@@ -1,7 +1,7 @@
 plugins {
-    id "io.freefair.git-version" version "4.1.0"
-    id "io.freefair.maven-publish-java" version "4.1.0" apply false
-    id "io.freefair.github.base" version "4.1.0"
+    id "io.freefair.git-version" version "4.1.1"
+    id "io.freefair.maven-publish-java" version "4.1.1" apply false
+    id "io.freefair.github.base" version "4.1.1"
 }
 
 allprojects {
