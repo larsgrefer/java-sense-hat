@@ -1,7 +1,7 @@
 plugins {
     id "java"
     id "io.freefair.maven-publish-java"
-    id "io.freefair.lombok" version "4.1.1"
+    id "io.freefair.lombok" version "4.1.2"
     id "io.freefair.github.package-registry-maven-publish"
 }
 
