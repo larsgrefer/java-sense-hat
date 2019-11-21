@@ -6,7 +6,7 @@ plugins {
 }
 
 dependencies {
-    compile 'org.slf4j:slf4j-api:1.7.28'
+    compile 'org.slf4j:slf4j-api:1.7.29'
     compile 'com.squareup.okio:okio:2.4.1'
 
     testCompile 'junit:junit:4.12'
