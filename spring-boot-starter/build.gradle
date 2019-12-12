@@ -1,8 +1,6 @@
-plugins {
-    id "java"
-    id "io.freefair.maven-publish-java"
-    id "io.freefair.github.package-registry-maven-publish"
-}
+apply plugin: "java"
+apply plugin: "io.freefair.maven-publish-java"
+apply plugin: "io.freefair.github.package-registry-maven-publish"
 
 archivesBaseName = "sense-hat-spring-boot-starter"
 publishing.publications.mavenJava.artifactId = 'sense-hat-spring-boot-starter'

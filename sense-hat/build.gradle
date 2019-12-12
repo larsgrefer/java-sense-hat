@@ -1,9 +1,7 @@
-plugins {
-    id "java"
-    id "io.freefair.maven-publish-java"
-    id "io.freefair.lombok" version "4.1.5"
-    id "io.freefair.github.package-registry-maven-publish"
-}
+apply plugin: "java"
+apply plugin: "io.freefair.maven-publish-java"
+apply plugin: "io.freefair.lombok"
+apply plugin: "io.freefair.github.package-registry-maven-publish"
 
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.29'
