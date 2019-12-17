@@ -11,5 +11,5 @@ repositories {
 dependencies {
     compile project(":sense-hat")
     compile "com.beust:jcommander:1.78"
-    compile "org.slf4j:slf4j-simple:1.7.29"
+    compile "org.slf4j:slf4j-simple:1.7.30"
 }
