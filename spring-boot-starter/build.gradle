@@ -2,6 +2,8 @@ apply plugin: "java"
 apply plugin: "io.freefair.maven-publish-java"
 apply plugin: "io.freefair.github.package-registry-maven-publish"
 
+description = "Java SenseHat Spring Boot Starter"
+
 archivesBaseName = "sense-hat-spring-boot-starter"
 publishing.publications.mavenJava.artifactId = 'sense-hat-spring-boot-starter'
 

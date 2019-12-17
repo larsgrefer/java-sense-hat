@@ -3,6 +3,8 @@ apply plugin: "io.freefair.maven-publish-java"
 apply plugin: "io.freefair.lombok"
 apply plugin: "io.freefair.github.package-registry-maven-publish"
 
+description = "Java SenseHat"
+
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.30'
     compile 'com.squareup.okio:okio:2.4.2'
