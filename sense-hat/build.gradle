@@ -10,5 +10,5 @@ dependencies {
     compile 'com.squareup.okio:okio:2.6.0'
 
     testCompile 'junit:junit:4.13'
-    testCompile 'org.assertj:assertj-core:3.14.0'
+    testCompile 'org.assertj:assertj-core:3.15.0'
 }
