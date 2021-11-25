@@ -34,6 +34,15 @@ github {
 }
 
 allprojects {
+
+    plugins.withId("java") {
+        java {
+            toolchain {
+                languageVersion = JavaLanguageVersion.of(8)
+            }
+        }
+    }
+
     plugins.withId("maven-publish") {
         project.apply plugin: 'de.marcphilipp.nexus-publish'
 
