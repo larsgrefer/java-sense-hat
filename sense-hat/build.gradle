@@ -7,7 +7,7 @@ description = "Java SenseHat"
 
 dependencies {
     api 'org.slf4j:slf4j-api:1.7.30'
-    implementation 'com.squareup.okio:okio:2.10.0'
+    implementation 'com.squareup.okio:okio:3.0.0'
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.assertj:assertj-core:3.19.0'
