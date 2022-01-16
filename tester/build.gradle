@@ -10,6 +10,6 @@ repositories {
 
 dependencies {
     implementation project(":sense-hat")
-    implementation "com.beust:jcommander:1.81"
+    implementation "com.beust:jcommander:1.82"
     implementation "org.slf4j:slf4j-simple:1.7.33"
 }
