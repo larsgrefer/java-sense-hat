@@ -8,6 +8,6 @@ archivesBaseName = "sense-hat-spring-boot-starter"
 publishing.publications.mavenJava.artifactId = 'sense-hat-spring-boot-starter'
 
 dependencies {
-    api "org.springframework.boot:spring-boot-starter:1.5.22.RELEASE"
+    api "org.springframework.boot:spring-boot-starter:3.0.0"
     api project(":sense-hat")
 }
