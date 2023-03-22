@@ -1,7 +1,9 @@
-apply plugin: "java-library"
-apply plugin: "io.freefair.maven-publish-java"
-apply plugin: "io.freefair.lombok"
-apply plugin: "io.freefair.github.package-registry-maven-publish"
+plugins {
+    id "java-library"
+    id "io.freefair.maven-publish-java"
+    id "io.freefair.lombok"
+    id "io.freefair.github.package-registry-maven-publish"
+}
 
 description = "Java SenseHat"
 

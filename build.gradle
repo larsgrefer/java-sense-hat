@@ -5,19 +5,15 @@ buildscript {
         }
     }
     dependencies {
-        def freefairGradleVersion = "6.6.3"
-        classpath "io.freefair.gradle:git-plugin:$freefairGradleVersion"
-        classpath "io.freefair.gradle:github-plugin:$freefairGradleVersion"
-        classpath "io.freefair.gradle:maven-plugin:$freefairGradleVersion"
-        classpath "io.freefair.gradle:lombok-plugin:$freefairGradleVersion"
-
         classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0"
         classpath "de.marcphilipp.gradle:nexus-publish-plugin:0.4.0"
     }
 }
 
-apply plugin: "io.freefair.git-version"
-apply plugin: "io.freefair.github.base"
+plugins {
+    id "io.freefair.git-version"
+    id "io.freefair.github.base"
+}
 
 allprojects {
     repositories {

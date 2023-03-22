@@ -1,3 +1,7 @@
+plugins {
+    id "io.freefair.settings.plugin-versions" version "8.0.1"
+}
+
 include ':sense-hat'
 include ':spring-boot-starter'
 include ':tester'

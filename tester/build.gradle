@@ -1,6 +1,8 @@
-apply plugin: "java"
-apply plugin: "application"
-apply plugin: "io.freefair.lombok"
+plugins {
+    id "java"
+    id "application"
+    id "io.freefair.lombok"
+}
 
 mainClassName = "de.larsgrefer.sense_hat.tester.SenseHatTester"
 
